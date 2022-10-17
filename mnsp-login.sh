@@ -33,7 +33,7 @@ CNF_VER="1" #script version used for update checking
 CNF_SWTAR="10.13.6" #macos target version
 CNF_LOGNAME="login" #name for this scripts log file
 
-#MAT wide config
+#MAT wide config - Site Specific - update as require
 CNF_NAS="mnsp-syno-01" 
 CNF_SMBSHARE="MacData01"
 
