@@ -13,7 +13,7 @@
 #
 # @type: shellscirpt
 # @Original author: Sebastian R. Viner
-# @modifucations for MAT wide functionality Simon Noble October 2022 - still in Progress
+# @modifications for MAT wide functionality: Simon Noble October 2022 - In Progress
 # ********************************************************************
 
 # Script Configuration
