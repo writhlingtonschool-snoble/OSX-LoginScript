@@ -12,7 +12,7 @@
 #
 #
 # @type: shellscirpt
-# @author: Sebastian R. Viner
+# @Original author: Sebastian R. Viner
 #
 # ********************************************************************
 
