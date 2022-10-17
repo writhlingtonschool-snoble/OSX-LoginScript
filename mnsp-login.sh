@@ -139,10 +139,8 @@ fi
 #mount NAS drive
 CNF_MyMediaWork="smb://$CNF_NAS/$CNF_SMBSHARE"
 #sudo -u "$VAR_USERNAME" osascript -e 'mount volume "smb://mnsp-syno-01/MacData01"'
-
 	_mainLog "inf" "Mounting NAS SMB share: $CNF_MyMediaWork"
-
-sudo -u "$VAR_USERNAME" osascript -e "mount volume \"${CNF_MyMediaWork}\""
+sudo -u "$VAR_USERNAME" osascript -e "mount volume \"${CNF_MyMediaWork}\"" #lovely
 
 
 
