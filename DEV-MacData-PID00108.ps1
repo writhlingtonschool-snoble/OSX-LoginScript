@@ -7,7 +7,7 @@ function dashedline() { #print dashed line
 Write-Host "----------------------------------------------------------------------------------------------------------"
 }
 
-$dryrun = "-whatif" #toggle between "-whatif" ""
+#$dryrun = "-whatif" #toggle between "-whatif" ""
 
 $CID="C00681" #change ID - update as required
 $root = "D:" # base drive letter for data/logging folders - update as required
