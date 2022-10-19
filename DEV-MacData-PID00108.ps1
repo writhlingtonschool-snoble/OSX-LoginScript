@@ -68,7 +68,7 @@ if (!(Test-Path $basepath))
     Write-Host "Setting NTFS Permissions..."
     #grant students traverse rights...
     Invoke-expression "icacls.exe $basepath /grant '$($AllstudentsADGroup):$icaclsperms01'" 
-
+    Start-sleep 60 #comment after initial run, once happy script is ready for full unuattended runs
     } else {
     Write-Host "$basepath already exists..."
     }
@@ -95,7 +95,7 @@ if (!(Test-Path $fullPath))
     #grant staff perms...
     Invoke-expression "icacls.exe $fullPath /grant '$($AllTeachingStaffADGroup):$icaclsperms03'"
     Invoke-expression "icacls.exe $fullPath /grant '$($AllSupportStaffADGroup):$icaclsperms03'"
-
+    Start-sleep 60 #comment after initial run, once happy script is ready for full unuattended runs
     } else {
     Write-host "Already exists nothing to do..."
     }
