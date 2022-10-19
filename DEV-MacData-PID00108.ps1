@@ -17,7 +17,7 @@ $LogDir="$root\AppData\MNSP\$CID\Logs" #Logs dir
 $transcriptlog = "$LogDir\$(Get-date -Format yyyyMMdd-HHmmss)_transcript.log"
 
 $siteOUpath = ",OU=Students,OU=WRI,OU=Establishments,DC=writhlington,DC=internal" #update as required
-$siteSharePath = "\\MNSP-SYNO-01\MacData01" #update as rquired 
+$siteSharePath = "\\MNSP-SYNO-01\MacData01" #update as required 
 
 #create required logging/working directory(s) paths if not exist...
 If(!(test-path -PathType container $DataDir))
