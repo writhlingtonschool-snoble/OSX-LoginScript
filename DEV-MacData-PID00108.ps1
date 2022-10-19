@@ -56,7 +56,7 @@ for ($i=0; $i -lt $array.Count; $i++){
     
     #create users array using year group array elements - 2000, 2019 etc...
 
-    $users = Get-aduser  -filter * -SearchBase $SearchBase -Properties sAMAccountName,homeDirectory,userPrincipalName,memberof | select sAMAccountName,homeDirectory,userPrincipalName
+    $users = Get-aduser  -filter * -SearchBase $SearchBase -Properties sAMAccountName,homeDirectory,userPrincipalName,memberof | Select-Object sAMAccountName,homeDirectory,userPrincipalName
     Write-host "Number of students to check/process:" $users.count
 
 Write-Host "Checking for/Creating base path: $basepath"
