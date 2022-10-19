@@ -1,7 +1,7 @@
 ﻿clear-host
 
 # files older than n days cleanup required
-##
+####
 
 function dashedline() { #print dashed line
 Write-Host "----------------------------------------------------------------------------------------------------------"
