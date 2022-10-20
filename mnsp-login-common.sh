@@ -20,17 +20,6 @@ CNF_VER="1" #script version used for update checking
 CNF_SWTAR="10.13.6" #macos target version
 CNF_LOGNAME="login" #name for this scripts log file
 
-#MAT wide config - Replace with Array - using ifconfig broadcast address
-# if broadcast address == 10.54.3.255 we are at beechenCliff, 10.55.39.255 writhlington etc,
-
-#beechenCliff
-#CNF_NAS="iMacBackup"
-#CNF_ADNETBIOSNAME="BEECHENCLIFF"
-
-#writhlington
-CNF_NAS="mnsp-syno-01"
-CNF_ADNETBIOSNAME="WRITHLINGTON"
-
 #agreed MAT common smbshare name
 CNF_SMBSHARE="MacData01"
 
@@ -79,10 +68,16 @@ _mainLog "inf" "Local Broadcast : $VAR_LOCALBCAST"
 
 if [ $VAR_LOCALBCAST == "10.54.3.255" ]; then
 	_mainLog "inf" "Location: BeechenCliff"
+	CNF_NAS="iMacBackup"
+	CNF_ADNETBIOSNAME="BEECHENCLIFF"
 elif [ $VAR_LOCALBCAST == "10.55.39.255" ]; then 
 	_mainLog "inf" "Location: Writhlington"
+	CNF_NAS="mnsp-syno-01"
+	CNF_ADNETBIOSNAME="WRITHLINGTON"
 fi
 
+_mainLog "inf" "Local NAS NetbiosName: $CNF_NAS"
+_mainLog "inf" "AD NetBiosName: $CNF_ADNETBIOSNAME"
 
 if [ ! "$CNF_ENABLED" == "YES" ]; then #exit if the script is not enabled
 	_mainLog "wrn" "Script is disabled please change variable CNF_ENABLED to YES if you would like to use it";
