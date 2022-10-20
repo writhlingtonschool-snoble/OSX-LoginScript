@@ -23,8 +23,16 @@ CNF_LOGNAME="login" #name for this scripts log file
 #MAT wide config - Replace with Array - using ifconfig broadcast address
 # if broadcast address == 10.54.3.255 we are at beechenCliff, 10.55.39.255 writhlington etc,
 
-#CNF_NAS="iMacBackup" #beechenCliff
-CNF_NAS="mnsp-syno-01" #writhlington
+#beechenCliff
+#CNF_NAS="iMacBackup"
+#CNF_ADNETBIOSNAME="BEECHENCLIFF"
+
+#writhlington
+CNF_NAS="mnsp-syno-01"
+CNF_ADNETBIOSNAME="WRITHLINGTON"
+
+
+#agreed MAT common smbshare name
 CNF_SMBSHARE="MacData01"
 
 # Script Variables
@@ -143,7 +151,8 @@ sudo -u "$VAR_USERNAME" osascript -e "mount volume \"${CNF_MyMediaWork}\""
 
 
 #use dscl to get intake year...
-VAR_DN1=$(dscl "/Active Directory/BEECHENCLIFF/All Domains" -read "Users/$VAR_USERNAME" distinguishedName | awk -F"OU=Students" {'print $1'} ) #split at "OU=Students"
+#VAR_DN1=$(dscl "/Active Directory/BEECHENCLIFF/All Domains" -read "Users/$VAR_USERNAME" distinguishedName | awk -F"OU=Students" {'print $1'} ) #split at "OU=Students"
+VAR_DN1=$(dscl "/Active Directory/$CNF_ADNETBIOSNAME/All Domains" -read "Users/$VAR_USERNAME" distinguishedName | awk -F"OU=Students" {'print $1'} ) #split at "OU=Students"
 VAR_DN2=$(echo $VAR_DN1 | awk -F"," '{print $(NF-1)}') #split using commas, select penultimate
 INTYR=$(echo $VAR_DN2 | awk -F"OU=" '{print $2}') #split at OU=, select second element.
 
@@ -155,7 +164,7 @@ INTYR=$(echo $VAR_DN2 | awk -F"OU=" '{print $2}') #split at OU=, select second e
 
 
 #sudo -u "$VAR_USERNAME" [ -e "/Users/$VAR_USERNAME/Desktop/My Media Work" ] && rm "/Users/$VAR_USERNAME/Desktop/My Media Work"
-sudo -u "$VAR_USERNAME" ln -s /Volumes/MacData01/$INTYR/$VAR_USERNAME "/Users/$VAR_USERNAME/Desktop/My Media Work" #create symlink using extracted vars from DSCL/LDAP lookup
+sudo -u "$VAR_USERNAME" ln -s /Volumes/$CNF_SMBSHARE/$INTYR/$VAR_USERNAME "/Users/$VAR_USERNAME/Desktop/My Media Work" #create symlink using extracted vars from DSCL/LDAP lookup
 
 _mainLog "inf" "$VAR_NAME finished"
 _mainLog "def" "************************************************************"
