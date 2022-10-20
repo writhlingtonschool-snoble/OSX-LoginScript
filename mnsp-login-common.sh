@@ -75,7 +75,8 @@ _mainLog "inf" "Starting Script" #opening log entry
 # get local IP address and broadcast
 VAR_LOCALIPADD=$(ifconfig en0 | grep -w "inet" | awk -F" " {'print $2'})
 VAR_LOCALBCAST=$(ifconfig en0 | grep -w "inet" | awk -F" " {'print $NF'})
-
+_mainLog "inf" "Local IP address: $VAR_LOCALIPADD"
+_mainLog "inf" "Local Broadcast : $VAR_LOCALIPADD"
 
 if [ ! "$CNF_ENABLED" == "YES" ]; then #exit if the script is not enabled
 	_mainLog "wrn" "Script is disabled please change variable CNF_ENABLED to YES if you would like to use it";
@@ -160,7 +161,7 @@ INTYR=$(echo $VAR_DN2 | awk -F"OU=" '{print $2}') #split at OU=, select second e
 	_mainLog "inf" "Symlink LDAP distinguished Name part 1: $VAR_DN1"
 	_mainLog "inf" "Symlink LDAP distinguishedName part 2: $VAR_DN2"
 	_mainLog "inf" "Symlink Intake year: $INTYR"
-	_mainLog "inf" "Symlink content: /Volumes/MacData01/$INTYR/$VAR_USERNAME /Users/$VAR_USERNAME/Desktop/MyStuff"
+	_mainLog "inf" "Symlink content: /Volumes/MacData01/$INTYR/$VAR_USERNAME /Users/$VAR_USERNAME/Desktop/My Media Work"
 
 
 #sudo -u "$VAR_USERNAME" [ -e "/Users/$VAR_USERNAME/Desktop/My Media Work" ] && rm "/Users/$VAR_USERNAME/Desktop/My Media Work"
