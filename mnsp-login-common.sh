@@ -158,7 +158,7 @@ VAR_DN1=$(dscl "/Active Directory/$CNF_ADNETBIOSNAME/All Domains" -read "Users/$
 VAR_DN2=$(echo $VAR_DN1 | awk -F"," '{print $(NF-1)}') #split using commas, select penultimate
 INTYR=$(echo $VAR_DN2 | awk -F"OU=" '{print $2}') #split at OU=, select second element.
 
-	_mainLog "inf" "Creating My Media Work Desktop symlink"
+	_mainLog "inf" "Creating My Media Work symlink"
 	_mainLog "inf" "Symlink LDAP distinguished Name part 1: $VAR_DN1"
 	_mainLog "inf" "Symlink LDAP distinguishedName part 2: $VAR_DN2"
 	_mainLog "inf" "Symlink Intake year: $INTYR"
