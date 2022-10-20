@@ -76,7 +76,7 @@ _mainLog "inf" "Starting Script" #opening log entry
 VAR_LOCALIPADD=$(ifconfig en0 | grep -w "inet" | awk -F" " {'print $2'})
 VAR_LOCALBCAST=$(ifconfig en0 | grep -w "inet" | awk -F" " {'print $NF'})
 _mainLog "inf" "Local IP address: $VAR_LOCALIPADD"
-_mainLog "inf" "Local Broadcast : $VAR_LOCALIPADD"
+_mainLog "inf" "Local Broadcast : $VAR_LOCALBCAST"
 
 if [ ! "$CNF_ENABLED" == "YES" ]; then #exit if the script is not enabled
 	_mainLog "wrn" "Script is disabled please change variable CNF_ENABLED to YES if you would like to use it";
