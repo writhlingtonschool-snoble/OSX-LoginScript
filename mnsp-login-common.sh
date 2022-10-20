@@ -157,14 +157,20 @@ sudo -u "$VAR_USERNAME" osascript -e "mount volume \"${CNF_MyMediaWork}\""
 VAR_ROLE=$(dscl "/Active Directory/$CNF_ADNETBIOSNAME/All Domains" -read "Users/$VAR_USERNAME" distinguishedName)
 _mainLog "inf" "Users DN: $VAR_ROLE"
 
-case "$VAR_ROLE" in 
-  	*OU=Students*)
-    _mainLog "inf" "Logging in User Role: Student"
-    ;;
-	*Staff*)
+if [ $VAR_ROLE == *Students* ] ; then
+	_mainLog "inf" "Logging in User Role: Student"
+elif [ $VAR_ROLE == *Staff* ] ; then
 	_mainLog "inf" "Logging in User Role: Staff"
-	;;
-esac
+fi
+
+#case "$VAR_ROLE" in 
+#  	*OU=Students*)
+#    _mainLog "inf" "Logging in User Role: Student"
+#    ;;
+#	*Staff*)
+#	_mainLog "inf" "Logging in User Role: Staff"
+#	;;
+#esac
 
 #use dscl to get intake year...
 #VAR_DN1=$(dscl "/Active Directory/BEECHENCLIFF/All Domains" -read "Users/$VAR_USERNAME" distinguishedName | awk -F"OU=Students" {'print $1'} ) #split at "OU=Students"
