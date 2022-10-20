@@ -161,7 +161,7 @@ case "$VAR_ROLE" in
   	*OU=Students*)
     _mainLog "inf" "Logging in User Role: Student"
     ;;
-	*OU=Staff*)
+	*Staff*)
 	_mainLog "inf" "Logging in User Role: Staff"
 	;;
 esac
