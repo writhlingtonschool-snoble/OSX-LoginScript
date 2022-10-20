@@ -164,6 +164,9 @@ INTYR=$(echo $VAR_DN2 | awk -F"OU=" '{print $2}') #split at OU=, select second e
 
 
 #sudo -u "$VAR_USERNAME" [ -e "/Users/$VAR_USERNAME/Desktop/My Media Work" ] && rm "/Users/$VAR_USERNAME/Desktop/My Media Work"
+
+#create user's dektop symlink
+[ -f "/Users/$VAR_USERNAME/Desktop/My Media Work" ] && rm -f "/Users/$VAR_USERNAME/Desktop/My Media Work" #force delete if exists
 sudo -u "$VAR_USERNAME" ln -s /Volumes/$CNF_SMBSHARE/$INTYR/$VAR_USERNAME "/Users/$VAR_USERNAME/Desktop/My Media Work" #create symlink using extracted vars from DSCL/LDAP lookup
 
 _mainLog "inf" "$VAR_NAME finished"
