@@ -153,6 +153,8 @@ CNF_MyMediaWork="smb://$CNF_NAS/$CNF_SMBSHARE"
 
 sudo -u "$VAR_USERNAME" osascript -e "mount volume \"${CNF_MyMediaWork}\""
 
+#check if logging in user is staff or student
+
 #use dscl to get intake year...
 #VAR_DN1=$(dscl "/Active Directory/BEECHENCLIFF/All Domains" -read "Users/$VAR_USERNAME" distinguishedName | awk -F"OU=Students" {'print $1'} ) #split at "OU=Students"
 VAR_DN1=$(dscl "/Active Directory/$CNF_ADNETBIOSNAME/All Domains" -read "Users/$VAR_USERNAME" distinguishedName | awk -F"OU=Students" {'print $1'} ) #split at "OU=Students"
