@@ -31,7 +31,6 @@ CNF_LOGNAME="login" #name for this scripts log file
 CNF_NAS="mnsp-syno-01"
 CNF_ADNETBIOSNAME="WRITHLINGTON"
 
-
 #agreed MAT common smbshare name
 CNF_SMBSHARE="MacData01"
 
@@ -72,11 +71,18 @@ mkdir "$CNF_SETUP/logs" #needs if exist check
 _mainLog "def" "******************** $VAR_NAME v$CNF_VER ********************" #opening log entry
 _mainLog "inf" "Starting Script" #opening log entry
 
-# get local IP address and broadcast
+# Dertimne local IP address, broadcast set location
 VAR_LOCALIPADD=$(ifconfig en0 | grep -w "inet" | awk -F" " {'print $2'})
 VAR_LOCALBCAST=$(ifconfig en0 | grep -w "inet" | awk -F" " {'print $NF'})
 _mainLog "inf" "Local IP address: $VAR_LOCALIPADD"
 _mainLog "inf" "Local Broadcast : $VAR_LOCALBCAST"
+
+if [ $VAR_LOCALBCAST == "10.54.3.255" ]; then
+	_mainLog "inf" "Location: BeechenCliff"
+elif [ $VAR_LOCALBCAST == "10.55.39.255" ]; then 
+	_mainLog "inf" "Location: Writhlington"
+fi
+
 
 if [ ! "$CNF_ENABLED" == "YES" ]; then #exit if the script is not enabled
 	_mainLog "wrn" "Script is disabled please change variable CNF_ENABLED to YES if you would like to use it";
