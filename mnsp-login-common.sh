@@ -158,10 +158,10 @@ VAR_ROLE=$(dscl "/Active Directory/$CNF_ADNETBIOSNAME/All Domains" -read "Users/
 _mainLog "inf" "Users DN: $VAR_ROLE"
 
 case "$VAR_ROLE" in 
-  	*student*)
+  	*Student*)
     _mainLog "inf" "Logging in User Role: Student"
     ;;
-	*staff*)
+	*Staff*)
 	_mainLog "inf" "Logging in User Role: Staff"
 	;;
 esac
