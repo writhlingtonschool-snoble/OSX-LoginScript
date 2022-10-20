@@ -163,7 +163,7 @@ INTYR=$(echo $VAR_DN2 | awk -F"OU=" '{print $2}') #split at OU=, select second e
 
 	_mainLog "inf" "Creating My Media Work symlink"
 	_mainLog "inf" "Symlink LDAP distinguished Name part 1: $VAR_DN1"
-	_mainLog "inf" "Symlink LDAP distinguishedName part 2: $VAR_DN2"
+	_mainLog "inf" "Symlink LDAP distinguished Name part 2: $VAR_DN2"
 	_mainLog "inf" "Symlink Intake year: $INTYR"
 	_mainLog "inf" "Symlink content: /Volumes/MacData01/$INTYR/$VAR_USERNAME /Users/$VAR_USERNAME/Desktop/My Media Work"
 
