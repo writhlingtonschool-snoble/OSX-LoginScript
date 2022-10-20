@@ -157,9 +157,9 @@ sudo -u "$VAR_USERNAME" osascript -e "mount volume \"${CNF_MyMediaWork}\""
 VAR_ROLE=$(dscl "/Active Directory/$CNF_ADNETBIOSNAME/All Domains" -read "Users/$VAR_USERNAME" distinguishedName)
 _mainLog "inf" "Users DN: $VAR_ROLE"
 
-if [ $VAR_ROLE == *Students* ] ; then
+if [[ $VAR_ROLE == *Students* ]] ; then
 	_mainLog "inf" "Logging in User Role: Student"
-elif [ $VAR_ROLE == *Staff* ] ; then
+elif [[ $VAR_ROLE == *Staff* ]] ; then
 	_mainLog "inf" "Logging in User Role: Staff"
 fi
 
