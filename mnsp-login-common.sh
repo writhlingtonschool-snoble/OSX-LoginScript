@@ -74,6 +74,10 @@ elif [ $VAR_LOCALBCAST == "10.55.39.255" ]; then
 	_mainLog "inf" "Location: Writhlington"
 	CNF_NAS="mnsp-syno-01"
 	CNF_ADNETBIOSNAME="WRITHLINGTON"
+elif [ $VAR_LOCALBCAST == "10.4.11.255" ]; then 
+	_mainLog "inf" "Location: NORTONHILL"
+	CNF_NAS="UNKNOWN"
+	CNF_ADNETBIOSNAME="NORTONHILL"
 fi
 
 _mainLog "inf" "Local NAS NetbiosName: $CNF_NAS"
@@ -148,9 +152,6 @@ CNF_MyMediaWork="smb://$CNF_NAS/$CNF_SMBSHARE"
 	_mainLog "inf" "Mounting NAS SMB share: $CNF_MyMediaWork"
 
 sudo -u "$VAR_USERNAME" osascript -e "mount volume \"${CNF_MyMediaWork}\""
-
-
-
 
 #use dscl to get intake year...
 #VAR_DN1=$(dscl "/Active Directory/BEECHENCLIFF/All Domains" -read "Users/$VAR_USERNAME" distinguishedName | awk -F"OU=Students" {'print $1'} ) #split at "OU=Students"
