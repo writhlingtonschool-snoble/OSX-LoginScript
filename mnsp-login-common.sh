@@ -23,7 +23,8 @@ CNF_LOGNAME="login" #name for this scripts log file
 #MAT wide config - Replace with Array - using ifconfig broadcast address
 # if broadcast address == 10.54.3.255 we are at beechenCliff, 10.55.39.255 writhlington etc,
 
-CNF_NAS="iMacBackup" 
+#CNF_NAS="iMacBackup" #beechenCliff
+CNF_NAS="mnsp-syno-01" #writhlington
 CNF_SMBSHARE="MacData01"
 
 # Script Variables
