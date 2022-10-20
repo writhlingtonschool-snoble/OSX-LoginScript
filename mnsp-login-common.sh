@@ -174,6 +174,9 @@ if [[ "${VAR_ROLE}" =~ "Students" ]] ;then
 		sudo -u "$VAR_USERNAME" ln -s /Volumes/$CNF_SMBSHARE/$INTYR/$VAR_USERNAME "/Users/$VAR_USERNAME/Desktop/My Media Work" #create symlink using extracted vars from DSCL/LDAP lookup
 elif [[ "${VAR_ROLE}" =~ "Staff" ]] ;then
 	_mainLog "inf" "Logging in User Role: Staff"
+		[ -f "/Users/$VAR_USERNAME/Desktop/Mac Student Areas" ] && rm -f "/Users/$VAR_USERNAME/Desktop/Mac Student Areas" #force delete if exists
+		sudo -u "$VAR_USERNAME" ln -s /Volumes/$CNF_SMBSHARE "/Users/$VAR_USERNAME/Desktop/Mac Student Areas" #create symlink using extracted vars from DSCL/LDAP lookup
+
 fi
 
 _mainLog "inf" "$VAR_NAME finished"
