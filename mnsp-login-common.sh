@@ -164,17 +164,14 @@ if [[ "${VAR_ROLE}" =~ "Students" ]] ;then
 		VAR_DN1=$(dscl "/Active Directory/$CNF_ADNETBIOSNAME/All Domains" -read "Users/$VAR_USERNAME" distinguishedName | awk -F"OU=Students" {'print $1'} ) #split at "OU=Students"
 		VAR_DN2=$(echo $VAR_DN1 | awk -F"," '{print $(NF-1)}') #split using commas, select penultimate
 		INTYR=$(echo $VAR_DN2 | awk -F"OU=" '{print $2}') #split at OU=, select second element.
-
 			_mainLog "inf" "Creating My Media Work symlink"
 			_mainLog "inf" "Symlink LDAP distinguished Name part 1: $VAR_DN1"
 			_mainLog "inf" "Symlink LDAP distinguished Name part 2: $VAR_DN2"
 			_mainLog "inf" "Symlink Intake year: $INTYR"
 			_mainLog "inf" "Symlink content: /Volumes/MacData01/$INTYR/$VAR_USERNAME /Users/$VAR_USERNAME/Desktop/My Media Work"
-
 		#create user's dektop symlink
 		[ -f "/Users/$VAR_USERNAME/Desktop/My Media Work" ] && rm -f "/Users/$VAR_USERNAME/Desktop/My Media Work" #force delete if exists
 		sudo -u "$VAR_USERNAME" ln -s /Volumes/$CNF_SMBSHARE/$INTYR/$VAR_USERNAME "/Users/$VAR_USERNAME/Desktop/My Media Work" #create symlink using extracted vars from DSCL/LDAP lookup
-
 elif [[ "${VAR_ROLE}" =~ "Staff" ]] ;then
 	_mainLog "inf" "Logging in User Role: Staff"
 fi
