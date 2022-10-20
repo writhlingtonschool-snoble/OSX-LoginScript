@@ -155,6 +155,8 @@ sudo -u "$VAR_USERNAME" osascript -e "mount volume \"${CNF_MyMediaWork}\""
 
 #check if logging in user is staff or student
 VAR_ROLE=$(dscl "/Active Directory/$CNF_ADNETBIOSNAME/All Domains" -read "Users/$VAR_USERNAME" distinguishedName)
+_mainLog "inf" "Users DN: $VAR_ROLE"
+
 case "$VAR_ROLE" in 
   	*student*)
     _mainLog "inf" "Logging in User Role: Student"
