@@ -161,7 +161,7 @@ _mainLog "inf" "Users DN: $VAR_ROLE"
 
 if [[ "${VAR_ROLE}" =~ "Students" ]] ;then
 	_mainLog "inf" "Logging in User Role: Student"
-elif [[ $VAR_ROLE == *Staff* ]] ; then
+elif [[ "${VAR_ROLE}" =~ "Staff" ]] ;then
 	_mainLog "inf" "Logging in User Role: Staff"
 fi
 
