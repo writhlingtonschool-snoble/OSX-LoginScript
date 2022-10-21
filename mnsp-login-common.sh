@@ -188,9 +188,12 @@ VAR_WINHOME2=$(echo $VAR_WINHOME1 | sed 's/\\/\//g' ) #swap \ with / as osx/nix 
 VAR_WINHOME3=$VAR_SMB$VAR_WINHOME2 #join vars together
 
 _mainLog "inf" "Mounting Users Windows home drive: $VAR_WINHOME3"
-sudo -u "$VAR_USERNAME" osascript -e "mount volume \"${VAR_WINHOME3}\""
+sudo -u "$VAR_USERNAME" osascript -e "mount volume \"${VAR_WINHOME3}\"" #RM CC$ all users have individual hidden share
 
-#sudo -u "$VAR_USERNAME" osascript -e 'mount volume "smb://wri-sr-004/'$VAR_USERNAME'$''"'
+#create desktop symlink
+		[ -f "/Users/$VAR_USERNAME/Desktop/My N drive" ] && rm -f "/Users/$VAR_USERNAME/Desktop/My N drive" #force delete if exists
+		sudo -u "$VAR_USERNAME" ln -s /Volumes/$\{VAR_USERNAME}\'$' "/Users/$VAR_USERNAME/Desktop/My N drive" #create symlink using extracted vars from DSCL/LDAP lookup
+
 
 _mainLog "inf" "$VAR_NAME finished"
 _mainLog "def" "************************************************************"
