@@ -179,10 +179,10 @@ elif [[ "${VAR_ROLE}" =~ "Staff" ]] ;then
 
 fi
 
-sed -i 's/old-text/new-text/g'
+#sed -i 's/old-text/new-text/g'
 
 #mount windows home drive
-VAR_WINHOME=$((dscl "/Active Directory/$CNF_ADNETBIOSNAME/All Domains" -read "Users/$VAR_USERNAME" SMBHome | awk -F" " {'print $2'} ) | sed -i 's@/@\@g' )
+VAR_WINHOME=$((dscl "/Active Directory/$CNF_ADNETBIOSNAME/All Domains" -read "Users/$VAR_USERNAME" SMBHome | awk -F" " {'print $2'} ) | sed -i 's/\\/\//g' )
 _mainLog "inf" "Users Windows home drive: $VAR_WINHOME"
 
 _mainLog "inf" "$VAR_NAME finished"
