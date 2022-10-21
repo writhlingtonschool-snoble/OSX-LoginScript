@@ -6,11 +6,12 @@
 # Script Configuration
 CNF_ENABLED="YES" #run script yes or no
 CNF_LOGGING="YES" #log script output or not
-CNF_UPDATES="NO" #check mac server for updates and download them
+CNF_UPDATES="YES" #check mac server for updates and download them
 CNF_AUTOSTART="YES" #run login items script
 CNF_HDRIVE="NO" #enable/disable network drive mounts
 CNF_SLINK="NO" #enable/didable symlinks to desktop
 CNF_FIXES="YES" #enable/disable special 'because on a mac fixes...'
+CNF_GITSRC="https://raw.githubusercontent.com/writhlingtonschool-snoble/OSX-LoginScript/main/mnsp-login-common.sh" #self updating git source.
 #CNF_SERVER="wrisch-macserver01.writhlington.internal" #address of server hosting resources  - legacy writhlington only
 #CNF_STAHOME="wri-sr-004" - legacy writhlington only
 #CNF_STUHOME="wri-sr-003" - legacy writhlington only
@@ -43,16 +44,16 @@ function _mainLog() {
 	#handles log requests
 	if [ "$1" == "err" ]; then
 		echo "[$(_mainTimestamp)][$VAR_USERNAME][$VAR_NAME][$VAR_HOST][ERRO] $2"
-		echo "[$(_mainTimestamp)][$VAR_USERNAME][$VAR_NAME][$VAR_HOST][ERRO] $2" >> "$CNF_SETUP/logs/SAMS-$CNF_LOGNAME.log"
+		echo "[$(_mainTimestamp)][$VAR_USERNAME][$VAR_NAME][$VAR_HOST][ERRO] $2" >> "$CNF_SETUP/logs/MNSP-$CNF_LOGNAME.log"
 	elif [ "$1" == "wrn" ]; then
 		echo "[$(_mainTimestamp)][$VAR_USERNAME][$VAR_NAME][$VAR_HOST][WARN] $2"
-		echo "[$(_mainTimestamp)][$VAR_USERNAME][$VAR_NAME][$VAR_HOST][WARN] $2" >> "$CNF_SETUP/logs/SAMS-$CNF_LOGNAME.log"
+		echo "[$(_mainTimestamp)][$VAR_USERNAME][$VAR_NAME][$VAR_HOST][WARN] $2" >> "$CNF_SETUP/logs/MNSP-$CNF_LOGNAME.log"
 	elif [ "$1" == "inf" ]; then
 		echo "[$(_mainTimestamp)][$VAR_USERNAME][$VAR_NAME][$VAR_HOST][INFO] $2"
-		echo "[$(_mainTimestamp)][$VAR_USERNAME][$VAR_NAME][$VAR_HOST][INFO] $2" >> "$CNF_SETUP/logs/SAMS-$CNF_LOGNAME.log"
+		echo "[$(_mainTimestamp)][$VAR_USERNAME][$VAR_NAME][$VAR_HOST][INFO] $2" >> "$CNF_SETUP/logs/MNSP-$CNF_LOGNAME.log"
 	elif [ "$1" == "def" ]; then
 		echo "$2"
-		echo "$2" >> "$CNF_SETUP/logs/SAMS-$CNF_LOGNAME.log"
+		echo "$2" >> "$CNF_SETUP/logs/MNSP-$CNF_LOGNAME.log"
 	fi 
 }
 
@@ -94,20 +95,21 @@ if [ ! $CNF_SWTAR == $VAR_SWVER ]; then #check macos version and log if mismatch
 fi
 
 if [ "$CNF_UPDATES" == "YES" ]; then #if enabled chack for updates
-	_mainLog "inf" "Checking server $CNF_SERVER is up and responding"
-	ping -q -c5 "$CNF_SERVER" > /dev/null #ping server to see if its up 
-	if [ $? -eq 0 ]; then #check ping result
-		_mainLog "inf" "Server $CNF_SERVER is alive"
-		_mainLog "inf" "Downloading latest scripts"
-		curl --url "http://$CNF_SERVER/SAMS/scripts/wrisch-login.sh" --output "$CNF_SETUP/.scripts/wrisch-login.sh" > /dev/null
-		curl --url "http://$CNF_SERVER/SAMS/scripts/wrisch-logout.sh" --output "$CNF_SETUP/.scripts/wrisch-logout.sh" > /dev/null
-		curl --url "http://$CNF_SERVER/SAMS/scripts/loginitems.sh" --output "$CNF_SETUP/.scripts/loginitems.sh" > /dev/null
-		chmod +x "/$CNF_SETUP/.scripts/loginitems.sh"
-		curl --url "http://$CNF_SERVER/SAMS/resources/LicenceServerInfo" --output "$CNF_SETUP/.scripts/LicenceServerInfo" > /dev/null
-		mv "$CNF_SETUP/.scripts/LicenceServerInfo" "/Library/Application Support/Sibelius Software/Sibelius 6/_manuscript/LicenceServerInfo"
-	else
-		_mainLog "wrn" "Server $CNF_SERVER failed to respond skipping update check"
-	fi
+	#_mainLog "inf" "Checking server $CNF_SERVER is up and responding"
+	#ping -q -c5 "$CNF_SERVER" > /dev/null #ping server to see if its up 
+	#if [ $? -eq 0 ]; then #check ping result
+	#	_mainLog "inf" "Server $CNF_SERVER is alive"
+		_mainLog "inf" "Downloading latest script(s)"
+		#curl --url "http://$CNF_SERVER/MNSP/scripts/wrisch-login.sh" --output "$CNF_SETUP/.scripts/wrisch-login.sh" > /dev/null
+		curl --url $CNF_GITSRC --output "$CNF_SETUP/.scripts/mnsp-login-common.sh" > /dev/null
+	#	curl --url "http://$CNF_SERVER/MNSP/scripts/wrisch-logout.sh" --output "$CNF_SETUP/.scripts/wrisch-logout.sh" > /dev/null
+	#	curl --url "http://$CNF_SERVER/MNSP/scripts/loginitems.sh" --output "$CNF_SETUP/.scripts/loginitems.sh" > /dev/null
+	#	chmod +x "/$CNF_SETUP/.scripts/loginitems.sh"
+	#	curl --url "http://$CNF_SERVER/MNSP/resources/LicenceServerInfo" --output "$CNF_SETUP/.scripts/LicenceServerInfo" > /dev/null
+	#	mv "$CNF_SETUP/.scripts/LicenceServerInfo" "/Library/Application Support/Sibelius Software/Sibelius 6/_manuscript/LicenceServerInfo"
+	#else
+	#	_mainLog "wrn" "Server $CNF_SERVER failed to respond skipping update check"
+	#fi
 fi
 
 if [ "$CNF_HDRIVE" == "YES" ]; then #mounting network drives
