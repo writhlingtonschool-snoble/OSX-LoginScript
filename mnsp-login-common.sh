@@ -95,7 +95,7 @@ if [ ! $CNF_SWTAR == $VAR_SWVER ]; then #check macos version and log if mismatch
 	_mainLog "wrn" "*** Running on untested version of macOS ($VAR_SWVER). Script designed for macOS ($CNF_SWTAR). There may be issues"
 fi
 
-if [ "$CNF_UPDATES" == "YES" ]; then #if enabled chack for updates
+#if [ "$CNF_UPDATES" == "YES" ]; then #if enabled chack for updates
 	_mainLog "inf" "Downloading GITHUB checksum "
 	curl --url $CNF_GITSHA --output "$CNF_SETUP/.scripts/mnsp-login-common.checksum" > /dev/null
 	shasum -a 256 -c "$CNF_SETUP/.scripts/mnsp-login-common.checksum" -q
@@ -117,7 +117,7 @@ if [ "$CNF_UPDATES" == "YES" ]; then #if enabled chack for updates
 	#else
 	#	_mainLog "wrn" "Server $CNF_SERVER failed to respond skipping update check"
 	#fi
-fi
+#fi
 
 if [ "$CNF_HDRIVE" == "YES" ]; then #mounting network drives
 	if [[ "$VAR_USERNAME" == *.* ]]; then #path for student network drives
