@@ -203,7 +203,7 @@ sudo -u "$VAR_USERNAME" osascript -e "mount volume \"${VAR_WINHOME3}\"" #RM CC$ 
 		sudo -u "$VAR_USERNAME" ln -s "/Volumes/$VAR_USERNAME$" "/Users/$VAR_USERNAME/Desktop/My N drive" #create symlink
 		#sudo -u "$VAR_USERNAME" ln -s "/Volumes/$VAR_USERNAME$" "/Users/$VAR_USERNAME/Desktop/$VAR_USERNAME" #username option
 
-#checksum 1
+#checksum 2
 
 _mainLog "inf" "$VAR_NAME finished"
 _mainLog "def" "************************************************************"
