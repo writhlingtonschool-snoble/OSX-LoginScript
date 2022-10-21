@@ -12,6 +12,7 @@ CNF_HDRIVE="NO" #enable/disable network drive mounts
 CNF_SLINK="NO" #enable/didable symlinks to desktop
 CNF_FIXES="YES" #enable/disable special 'because on a mac fixes...'
 CNF_GITSRC="https://raw.githubusercontent.com/writhlingtonschool-snoble/OSX-LoginScript/main/mnsp-login-common.sh" #self updating git source.
+CNF_GITSHA="https://raw.githubusercontent.com/writhlingtonschool-snoble/OSX-LoginScript/main/mnsp-login-common.checksum" #self updating checksum
 #CNF_SERVER="wrisch-macserver01.writhlington.internal" #address of server hosting resources  - legacy writhlington only
 #CNF_STAHOME="wri-sr-004" - legacy writhlington only
 #CNF_STUHOME="wri-sr-003" - legacy writhlington only
@@ -95,6 +96,9 @@ if [ ! $CNF_SWTAR == $VAR_SWVER ]; then #check macos version and log if mismatch
 fi
 
 if [ "$CNF_UPDATES" == "YES" ]; then #if enabled chack for updates
+	_mainLog "inf" "Downloading GITHUB checksum"
+	curl --url $CNF_GITSHA --output "$CNF_SETUP/.scripts/mnsp-login-common.checksum" > /dev/null
+
 	#_mainLog "inf" "Checking server $CNF_SERVER is up and responding"
 	#ping -q -c5 "$CNF_SERVER" > /dev/null #ping server to see if its up 
 	#if [ $? -eq 0 ]; then #check ping result
