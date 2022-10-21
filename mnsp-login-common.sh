@@ -118,15 +118,21 @@ fi
 	#	_mainLog "wrn" "Server $CNF_SERVER failed to respond skipping update check"
 	#fi
 #fi
-
+[ -f "/Users/$VAR_USERNAME/Desktop/My N drive" ] && rm -f "/Users/$VAR_USERNAME/Desktop/My N drive" #force delete if exists
 if [ "$CNF_HDRIVE" == "YES" ]; then #mounting network drives
-	if [[ "$VAR_USERNAME" == *.* ]]; then #path for student network drives
-		_mainLog "inf" "Mounting network drive on $CNF_STUHOME for $VAR_USERNAME"
-		sudo -u "$VAR_USERNAME" osascript -e 'mount volume "smb://wri-sr-003/'$VAR_USERNAME'$''"'
-	elif [[ ! "$VAR_USERNAME" == *.* ]] && [ ! "$VAR_USERNAME" == "systemadmin" ]; then #path for staff network drives
-		_mainLog "inf" "Mounting network drive on $CNF_STAHOME for $VAR_USERNAME"
-		sudo -u "$VAR_USERNAME" osascript -e 'mount volume "smb://wri-sr-004/'$VAR_USERNAME'$''"'
-	fi
+		#mount windows home drive#
+		VAR_SMB="smb:"
+		VAR_WINHOME1=$(dscl "/Active Directory/$CNF_ADNETBIOSNAME/All Domains" -read "Users/$VAR_USERNAME" SMBHome | awk -F" " {'print $2'} ) # get users home path
+		VAR_WINHOME2=$(echo $VAR_WINHOME1 | sed 's/\\/\//g' ) #swap \ with / as osx/nix needs it this way.
+		VAR_WINHOME3=$VAR_SMB$VAR_WINHOME2 #join vars together
+
+		_mainLog "inf" "Mounting Users Windows home drive: $VAR_WINHOME3"
+		sudo -u "$VAR_USERNAME" osascript -e "mount volume \"${VAR_WINHOME3}\"" #RM CC$ all users have individual hidden share
+
+		#create N drive desktop symlink
+
+				sudo -u "$VAR_USERNAME" ln -s "/Volumes/$VAR_USERNAME$" "/Users/$VAR_USERNAME/Desktop/My N drive" #create symlink
+				#sudo -u "$VAR_USERNAME" ln -s "/Volumes/$VAR_USERNAME$" "/Users/$VAR_USERNAME/Desktop/$VAR_USERNAME" #username option
 fi
 
 if [ "$CNF_SLINK" == "YES" ]; then #set desktop symlinks
@@ -189,19 +195,6 @@ elif [[ "${VAR_ROLE}" =~ "Staff" ]] ;then
 
 fi
 
-#mount windows home drive#
-VAR_SMB="smb:"
-VAR_WINHOME1=$(dscl "/Active Directory/$CNF_ADNETBIOSNAME/All Domains" -read "Users/$VAR_USERNAME" SMBHome | awk -F" " {'print $2'} ) # get users home path
-VAR_WINHOME2=$(echo $VAR_WINHOME1 | sed 's/\\/\//g' ) #swap \ with / as osx/nix needs it this way.
-VAR_WINHOME3=$VAR_SMB$VAR_WINHOME2 #join vars together
-
-_mainLog "inf" "Mounting Users Windows home drive: $VAR_WINHOME3"
-sudo -u "$VAR_USERNAME" osascript -e "mount volume \"${VAR_WINHOME3}\"" #RM CC$ all users have individual hidden share
-
-#create N drive desktop symlink
-		[ -f "/Users/$VAR_USERNAME/Desktop/My N drive" ] && rm -f "/Users/$VAR_USERNAME/Desktop/My N drive" #force delete if exists
-		sudo -u "$VAR_USERNAME" ln -s "/Volumes/$VAR_USERNAME$" "/Users/$VAR_USERNAME/Desktop/My N drive" #create symlink
-		#sudo -u "$VAR_USERNAME" ln -s "/Volumes/$VAR_USERNAME$" "/Users/$VAR_USERNAME/Desktop/$VAR_USERNAME" #username option
 
 #checksum 2
 
