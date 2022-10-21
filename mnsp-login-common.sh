@@ -187,7 +187,8 @@ VAR_WINHOME1=$(dscl "/Active Directory/$CNF_ADNETBIOSNAME/All Domains" -read "Us
 VAR_WINHOME2=$(echo $VAR_WINHOME1 | sed 's/\\/\//g' ) #swap \ with / as osx/nix needs it this way.
 VAR_WINHOME3=$VAR_SMB$VAR_WINHOME2 #join vars together
 
-_mainLog "inf" "Users Windows home drive: $VAR_WINHOME1 $VAR_WINHOME2 $VAR_WINHOME3"
+_mainLog "inf" "Mounting Users Windows home drive: $VAR_WINHOME3"
+sudo -u "$VAR_USERNAME" osascript -e "mount volume $VAR_WINHOME3"
 
 _mainLog "inf" "$VAR_NAME finished"
 _mainLog "def" "************************************************************"
