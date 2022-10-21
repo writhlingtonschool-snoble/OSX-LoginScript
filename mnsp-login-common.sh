@@ -184,8 +184,9 @@ fi
 #mount windows home drive
 VAR_WINHOME1=$(dscl "/Active Directory/$CNF_ADNETBIOSNAME/All Domains" -read "Users/$VAR_USERNAME" SMBHome | awk -F" " {'print $2'} ) # get users home path
 VAR_WINHOME2=$(echo $VAR_WINHOME1 | sed 's/\\/\//g' ) #swap \ with / as osx/nix needs it this way.
+VAR_WINHOME3=$(smb:$VAR_WINHOME2)
 
-_mainLog "inf" "Users Windows home drive: $VAR_WINHOME1 $VAR_WINHOME2"
+_mainLog "inf" "Users Windows home drive: $VAR_WINHOME1 $VAR_WINHOME2 $VAR_WINHOME3"
 
 _mainLog "inf" "$VAR_NAME finished"
 _mainLog "def" "************************************************************"
