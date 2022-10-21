@@ -11,17 +11,18 @@ CNF_AUTOSTART="YES" #run login items script
 CNF_HDRIVE="NO" #enable/disable network drive mounts
 CNF_SLINK="NO" #enable/didable symlinks to desktop
 CNF_FIXES="YES" #enable/disable special 'because on a mac fixes...'
-CNF_SERVER="wrisch-macserver01.writhlington.internal" #address of server hosting resources
-CNF_STAHOME="wri-sr-004"
-CNF_STUHOME="wri-sr-003"
-#CNF_SETUP="/Writhlington" #local location for all scripts and assets
+#CNF_SERVER="wrisch-macserver01.writhlington.internal" #address of server hosting resources  - legacy writhlington only
+#CNF_STAHOME="wri-sr-004" - legacy writhlington only
+#CNF_STUHOME="wri-sr-003" - legacy writhlington only
+#CNF_SETUP="/Writhlington" #local location for all scripts and assets  - legacy writhlington only
 CNF_SETUP="/private/mnsp" #local location for all scripts and assets
 CNF_VER="1" #script version used for update checking
 CNF_SWTAR="10.13.6" #macos target version
 CNF_LOGNAME="login" #name for this scripts log file
 
-#agreed MAT common smbshare name
-CNF_SMBSHARE="MacData01"
+#agreed MAT common smbshare name(s)
+CNF_SMBSHARE01="MacData01" #students data
+CNF_SMBSHARE02="MacData02" #staff data
 
 # Script Variables
 VAR_NAME=$(basename $0) #script name
@@ -146,7 +147,7 @@ if [ "$CNF_AUTOSTART" == "YES" ]; then #autostart applications after login as us
 fi
 
 #mount NAS drive
-CNF_MyMediaWork="smb://$CNF_NAS/$CNF_SMBSHARE"
+CNF_MyMediaWork="smb://$CNF_NAS/$CNF_SMBSHARE01"
 #sudo -u "$VAR_USERNAME" osascript -e 'mount volume "smb://mnsp-syno-01/MacData01"'
 
 	_mainLog "inf" "Mounting NAS SMB share: $CNF_MyMediaWork"
@@ -171,11 +172,11 @@ if [[ "${VAR_ROLE}" =~ "Students" ]] ;then
 			_mainLog "inf" "Symlink content: /Volumes/MacData01/$INTYR/$VAR_USERNAME /Users/$VAR_USERNAME/Desktop/My Media Work"
 		#create user's dektop symlink
 		[ -f "/Users/$VAR_USERNAME/Desktop/My Media Work" ] && rm -f "/Users/$VAR_USERNAME/Desktop/My Media Work" #force delete if exists
-		sudo -u "$VAR_USERNAME" ln -s /Volumes/$CNF_SMBSHARE/$INTYR/$VAR_USERNAME "/Users/$VAR_USERNAME/Desktop/My Media Work" #create symlink using extracted vars from DSCL/LDAP lookup
+		sudo -u "$VAR_USERNAME" ln -s /Volumes/$CNF_SMBSHARE01/$INTYR/$VAR_USERNAME "/Users/$VAR_USERNAME/Desktop/My Media Work" #create symlink using extracted vars from DSCL/LDAP lookup
 elif [[ "${VAR_ROLE}" =~ "Staff" ]] ;then
 	_mainLog "inf" "Logging in User Role: Staff"
 		[ -f "/Users/$VAR_USERNAME/Desktop/Mac Student Areas" ] && rm -f "/Users/$VAR_USERNAME/Desktop/Mac Student Areas" #force delete if exists
-		sudo -u "$VAR_USERNAME" ln -s /Volumes/$CNF_SMBSHARE "/Users/$VAR_USERNAME/Desktop/Mac Student Areas" #create symlink using extracted vars from DSCL/LDAP lookup
+		sudo -u "$VAR_USERNAME" ln -s /Volumes/$CNF_SMBSHARE01 "/Users/$VAR_USERNAME/Desktop/Mac Student Areas" #create symlink using extracted vars from DSCL/LDAP lookup
 
 fi
 
