@@ -103,7 +103,7 @@ if [ "$CNF_UPDATES" == "YES" ]; then #if enabled chack for updates
 		_mainLog "inf" "Downloading latest script(s)"
 		#curl --url "http://$CNF_SERVER/MNSP/scripts/wrisch-login.sh" --output "$CNF_SETUP/.scripts/wrisch-login.sh" > /dev/null
 		curl --url $CNF_GITSRC --output "$CNF_SETUP/.scripts/mnsp-login-common.sh" > /dev/null
-
+	fi
 	#_mainLog "inf" "Checking server $CNF_SERVER is up and responding"
 	#ping -q -c5 "$CNF_SERVER" > /dev/null #ping server to see if its up 
 	#if [ $? -eq 0 ]; then #check ping result
