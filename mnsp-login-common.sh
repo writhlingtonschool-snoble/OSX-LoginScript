@@ -182,7 +182,8 @@ fi
 #sed -i 's/old-text/new-text/g'
 
 #mount windows home drive
-VAR_WINHOME=$(dscl "/Active Directory/$CNF_ADNETBIOSNAME/All Domains" -read "Users/$VAR_USERNAME" SMBHome | awk -F" " {'print $2'} )
+VAR_WINHOME=$(dscl "/Active Directory/$CNF_ADNETBIOSNAME/All Domains" -read "Users/$VAR_USERNAME" SMBHome | awk -F" " {'print $2'} ) # get users home path
+VAR_WINHOME=$(echo $VAR_WINHOME | sed -i 's/\\/\//g' ) #swap \ with / as osx needs it this way.
 
 _mainLog "inf" "Users Windows home drive: $VAR_WINHOME"
 
