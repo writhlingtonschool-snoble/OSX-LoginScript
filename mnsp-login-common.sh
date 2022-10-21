@@ -96,7 +96,7 @@ if [ ! $CNF_SWTAR == $VAR_SWVER ]; then #check macos version and log if mismatch
 fi
 
 if [ "$CNF_UPDATES" == "YES" ]; then #if enabled chack for updates
-	_mainLog "inf" "Downloading GITHUB checksum"
+	_mainLog "inf" "Downloading GITHUB checksum "
 	curl --url $CNF_GITSHA --output "$CNF_SETUP/.scripts/mnsp-login-common.checksum" > /dev/null
 
 	#_mainLog "inf" "Checking server $CNF_SERVER is up and responding"
