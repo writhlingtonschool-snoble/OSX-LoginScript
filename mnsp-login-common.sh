@@ -98,14 +98,17 @@ fi
 if [ "$CNF_UPDATES" == "YES" ]; then #if enabled chack for updates
 	_mainLog "inf" "Downloading GITHUB checksum "
 	curl --url $CNF_GITSHA --output "$CNF_SETUP/.scripts/mnsp-login-common.checksum" > /dev/null
+	shasum -a 256 -c "$CNF_SETUP/.scripts/mnsp-login-common.checksum" -q
+	if [ $? -ne 0 ] ; then
+		_mainLog "inf" "Downloading latest script(s)"
+		#curl --url "http://$CNF_SERVER/MNSP/scripts/wrisch-login.sh" --output "$CNF_SETUP/.scripts/wrisch-login.sh" > /dev/null
+		curl --url $CNF_GITSRC --output "$CNF_SETUP/.scripts/mnsp-login-common.sh" > /dev/null
 
 	#_mainLog "inf" "Checking server $CNF_SERVER is up and responding"
 	#ping -q -c5 "$CNF_SERVER" > /dev/null #ping server to see if its up 
 	#if [ $? -eq 0 ]; then #check ping result
 	#	_mainLog "inf" "Server $CNF_SERVER is alive"
-		_mainLog "inf" "Downloading latest script(s)"
-		#curl --url "http://$CNF_SERVER/MNSP/scripts/wrisch-login.sh" --output "$CNF_SETUP/.scripts/wrisch-login.sh" > /dev/null
-		curl --url $CNF_GITSRC --output "$CNF_SETUP/.scripts/mnsp-login-common.sh" > /dev/null
+		
 	#	curl --url "http://$CNF_SERVER/MNSP/scripts/wrisch-logout.sh" --output "$CNF_SETUP/.scripts/wrisch-logout.sh" > /dev/null
 	#	curl --url "http://$CNF_SERVER/MNSP/scripts/loginitems.sh" --output "$CNF_SETUP/.scripts/loginitems.sh" > /dev/null
 	#	chmod +x "/$CNF_SETUP/.scripts/loginitems.sh"
