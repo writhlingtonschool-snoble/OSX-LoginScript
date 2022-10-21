@@ -179,8 +179,6 @@ elif [[ "${VAR_ROLE}" =~ "Staff" ]] ;then
 
 fi
 
-#sed -i 's/old-text/new-text/g'
-
 #mount windows home drive#
 VAR_SMB="smb:"
 VAR_WINHOME1=$(dscl "/Active Directory/$CNF_ADNETBIOSNAME/All Domains" -read "Users/$VAR_USERNAME" SMBHome | awk -F" " {'print $2'} ) # get users home path
@@ -190,9 +188,9 @@ VAR_WINHOME3=$VAR_SMB$VAR_WINHOME2 #join vars together
 _mainLog "inf" "Mounting Users Windows home drive: $VAR_WINHOME3"
 sudo -u "$VAR_USERNAME" osascript -e "mount volume \"${VAR_WINHOME3}\"" #RM CC$ all users have individual hidden share
 
-#create desktop symlink
+#create N drive desktop symlink
 		[ -f "/Users/$VAR_USERNAME/Desktop/My N drive" ] && rm -f "/Users/$VAR_USERNAME/Desktop/My N drive" #force delete if exists
-		sudo -u "$VAR_USERNAME" ln -s "/Volumes/$VAR_USERNAME$" "/Users/$VAR_USERNAME/Desktop/My N drive" #create symlink using extracted vars from DSCL/LDAP lookup
+		sudo -u "$VAR_USERNAME" ln -s "/Volumes/$VAR_USERNAME$" "/Users/$VAR_USERNAME/Desktop/My N drive" #create symlink
 		#sudo -u "$VAR_USERNAME" ln -s "/Volumes/$VAR_USERNAME$" "/Users/$VAR_USERNAME/Desktop/$VAR_USERNAME" #username option
 
 _mainLog "inf" "$VAR_NAME finished"
