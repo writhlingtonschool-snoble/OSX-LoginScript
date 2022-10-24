@@ -129,8 +129,8 @@ if (!(Test-Path $basepath))
     
     Write-Host "Setting NTFS Permissions..."
         #grant traverse rights...
-        Invoke-expression "icacls.exe $basepath /grant '$($AllTeachingStaffADGroup):$icaclsperms01'" 
-        Invoke-expression "icacls.exe $basepath /grant '$($AllSupportStaffADGroup):$icaclsperms01'" 
+        Invoke-expression "icacls.exe '$basepath' /grant '$($AllTeachingStaffADGroup):$icaclsperms01'" 
+        Invoke-expression "icacls.exe '$basepath' /grant '$($AllSupportStaffADGroup):$icaclsperms01'" 
         Start-sleep 60 #comment after initial run, once happy script is ready for full unuattended runs
         } else {
         Write-Host "$basepath already exists..."
