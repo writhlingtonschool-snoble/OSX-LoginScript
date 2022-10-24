@@ -84,10 +84,10 @@ foreach ($user in $users) {
     $fullPath = "$basepath\$($user.sAMAccountName)"
 
 Write-Host "Checking for full path: '$fullpath'"
-if (!(Test-Path '$fullPath'))
+if (!(Test-Path "$fullPath"))
     {
     Write-Host "Creating directory for student..."
-    new-item -ItemType Directory -Path '$fullpath' -Force
+    new-item -ItemType Directory -Path "$fullpath" -Force
     
 
     Write-Host "Setting NTFS Permissions..."
