@@ -195,12 +195,14 @@ elif [[ "${VAR_ROLE}" =~ "Staff" ]] ;then
 
 		#mount NAS drive 02
 		CNF_MyMediaWorkStaff="smb://$CNF_NAS/$CNF_SMBSHARE02"
-		#sudo -u "$VAR_USERNAME" osascript -e 'mount volume "smb://mnsp-syno-01/MacData01"'
-
-			_mainLog "inf" "Mounting NAS SMB share: $CNF_MyMediaWorkStaff"
-
+		_mainLog "inf" "Mounting NAS SMB share: $CNF_MyMediaWorkStaff"
 		sudo -u "$VAR_USERNAME" osascript -e "mount volume \"${CNF_MyMediaWorkStaff}\""
 
+		#use dscl to get staff role...
+		VAR_DN5=$(dscl "/Active Directory/$CNF_ADNETBIOSNAME/All Domains" -read "Users/$VAR_USERNAME" distinguishedName | awk -F"OU=Establishments" {'print $1'} ) #split at "OU=Students"
+		_mainLog "inf" "Symlink LDAP distinguished Name part 1: $VAR_DN5"
+		VAR_DN6=$(echo $VAR_DN5 | awk -F"," {'print $NF-3'})
+		_mainLog "inf" "Symlink LDAP distinguished Name part 2: $VAR_DN6"
 		#create user's dektop symlink
 		[ -f "/Users/$VAR_USERNAME/Desktop/My Media Work" ] && rm -f "/Users/$VAR_USERNAME/Desktop/My Media Work" #force delete if exists
 		sudo -u "$VAR_USERNAME" ln -s /Volumes/$CNF_SMBSHARE02/$VAR_USERNAME "/Users/$VAR_USERNAME/Desktop/My Media Work" #create symlink using extracted vars from DSCL/LDAP lookup
