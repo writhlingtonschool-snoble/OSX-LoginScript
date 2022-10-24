@@ -113,8 +113,8 @@ $StaffOUarray = @("Teaching Staff","Non-Teaching Staff") #limited OU(s) for init
 for ($i=0; $i -lt $StaffOUarray.Count; $i++){
     $StaffRole = $StaffOUarray[$i] #set 
     Write-Host "Processing Staff Role OU:$StaffRole"
-    $basepath = "$StafffSiteSharePath\$StaffRole"
-    $searchBase = "OU=$StaffSiteOUpath$StaffRole"
+    $basepath = "$StaffSiteSharePath\$StaffRole"
+    $searchBase = "OU=$StaffRole$StaffSiteOUpath"
     
     #create users array using year group array elements - Teaching, Non-Teaching  etc...
     $users=@() #empty any existing array
