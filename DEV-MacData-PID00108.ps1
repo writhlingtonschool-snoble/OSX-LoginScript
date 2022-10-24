@@ -49,7 +49,7 @@ $icaclsperms03 = "(OI)(CI)(RX,W,DC)" #staff/support modify right
 Write-Host "Processing Students..."
 #year groups to process array
 #$array = @("2000","2019","2018","2017","2016","2015","2014","2013") #update as required 
-$array = @("2000","2022") #limited OU(s) for initial development testing.
+$array = @("2000") #limited OU(s) for initial development testing.
 
 for ($i=0; $i -lt $array.Count; $i++){
     $INTYYYY = $array[$i] #set 
@@ -114,8 +114,8 @@ for ($i=0; $i -lt $StaffOUarray.Count; $i++){
     $StaffRole = $StaffOUarray[$i] #set 
     Write-Host "Processing Staff Role OU:$StaffRole"
     $basepath = "$StafffSiteSharePath\$StaffRole"
-    $searchBase = "OU=$StaffRoleSiteOUpath"
-
+    $searchBase = "OU=$StaffSiteOUpath$StaffRole"
+    
     #create users array using year group array elements - Teaching, Non-Teaching  etc...
     $users=@() #empty any existing array
     $users = Get-aduser  -filter * -SearchBase $SearchBase -Properties sAMAccountName,homeDirectory,userPrincipalName,memberof | Select-Object sAMAccountName,homeDirectory,userPrincipalName
