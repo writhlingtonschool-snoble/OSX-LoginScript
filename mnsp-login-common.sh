@@ -201,8 +201,10 @@ elif [[ "${VAR_ROLE}" =~ "Staff" ]] ;then
 		#use dscl to get staff role...
 		VAR_DN5=$(dscl "/Active Directory/$CNF_ADNETBIOSNAME/All Domains" -read "Users/$VAR_USERNAME" distinguishedName | awk -F"OU=Establishments" {'print $1'} ) #split at "OU=Students"
 		_mainLog "inf" "Symlink LDAP distinguished Name part 1: $VAR_DN5"
-		VAR_DN6=$(echo $VAR_DN5 | awk -F"," {'print $(NF-3)}')
+		VAR_DN6=$(echo $VAR_DN5 | awk -F"," {'print $(NF-2)}')
 		_mainLog "inf" "Symlink LDAP distinguished Name part 2: $VAR_DN6"
+		VAR_STAFFROLE=$(echo $VAR_DN6 | awk -F"OU=" '{print $2}')
+		_mainLog "inf" "Symlink LDAP distinguished Name part 3: $VAR_STAFFROLE"
 		#create user's dektop symlink
 		[ -f "/Users/$VAR_USERNAME/Desktop/My Media Work" ] && rm -f "/Users/$VAR_USERNAME/Desktop/My Media Work" #force delete if exists
 		sudo -u "$VAR_USERNAME" ln -s /Volumes/$CNF_SMBSHARE02/$VAR_USERNAME "/Users/$VAR_USERNAME/Desktop/My Media Work" #create symlink using extracted vars from DSCL/LDAP lookup
