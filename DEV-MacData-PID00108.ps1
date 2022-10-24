@@ -6,7 +6,7 @@ Write-Host "--------------------------------------------------------------------
 }
 
 #$dryrun = "-whatif" #toggle between "-whatif" ""
-
+$sleep = "30" #default sleep value (seconds)
 $CID="C00681" #change ID - update as required
 $root = "D:" # base drive letter for data/logging folders - update as required
 
@@ -123,7 +123,7 @@ for ($i=0; $i -lt $StaffOUarray.Count; $i++){
     Write-host "Number of staff to check/process:" $users.count
 
     Write-Host "Checking for/Creating base path: $basepath"
-if (!(Test-Path $basepath))
+if (!(Test-Path '$basepath'))
     {
     new-item -ItemType Directory -Path $basepath -Force
     
@@ -131,7 +131,7 @@ if (!(Test-Path $basepath))
         #grant traverse rights...
         Invoke-expression "icacls.exe '$basepath' /grant '$($AllTeachingStaffADGroup):$icaclsperms01'" 
         Invoke-expression "icacls.exe '$basepath' /grant '$($AllSupportStaffADGroup):$icaclsperms01'" 
-        Start-sleep 60 #comment after initial run, once happy script is ready for full unuattended runs
+        Start-sleep $sleep #comment after initial run, once happy script is ready for full unuattended runs
         } else {
         Write-Host "$basepath already exists..."
         }
@@ -144,18 +144,18 @@ if (!(Test-Path $basepath))
             Write-host "UPN: $($user.userPrincipalName)"
             $fullPath = "$basepath\$($user.sAMAccountName)"
         
-        Write-Host "Checking for full path: '$fullpath'"
-        if (!(Test-Path '$fullPath'))
+        Write-Host "Checking for full path: $fullpath"
+        if (!(Test-Path "$fullPath"))
             {
             Write-Host "Creating directory for staff..."
-            new-item -ItemType Directory -Path '$fullpath' -Force
+            new-item -ItemType Directory -Path "$fullpath" -Force
             
         
             Write-Host "Setting NTFS Permissions..."
             #grant owner permissions...
             Invoke-expression "icacls.exe '$fullPath' /grant '$($user.userPrincipalName):$icaclsperms02'"
             
-            Start-sleep 60 #comment after initial run, once happy script is ready for full unuattended runs
+            Start-sleep $sleep #comment after initial run, once happy script is ready for full unuattended runs
             } else {
             Write-host "Already exists nothing to do..."
             }
