@@ -70,7 +70,7 @@ if (!(Test-Path $basepath))
     Write-Host "Setting NTFS Permissions..."
     #grant students traverse rights...
     Invoke-expression "icacls.exe $basepath /grant '$($AllstudentsADGroup):$icaclsperms01'" 
-    Start-sleep 60 #comment after initial run, once happy script is ready for full unuattended runs
+    Start-sleep $sleep #comment after initial run, once happy script is ready for full unuattended runs
     } else {
     Write-Host "$basepath already exists..."
     }
@@ -97,7 +97,7 @@ if (!(Test-Path '$fullPath'))
     #grant staff perms...
     Invoke-expression "icacls.exe '$fullPath' /grant '$($AllTeachingStaffADGroup):$icaclsperms03'"
     Invoke-expression "icacls.exe '$fullPath' /grant '$($AllSupportStaffADGroup):$icaclsperms03'"
-    Start-sleep 60 #comment after initial run, once happy script is ready for full unuattended runs
+    Start-sleep $sleep #comment after initial run, once happy script is ready for full unuattended runs
     } else {
     Write-host "Already exists nothing to do..."
     }
@@ -108,8 +108,8 @@ if (!(Test-Path '$fullPath'))
 }
 
 Write-Host "Processing staff..."
-#$StaffOUarray = @("Teaching Staff","Non-Teaching Staff") #Full list of OU(s) to process.
-$StaffOUarray = @("Teaching Staff") #limited OU(s) for initial development testing.
+$StaffOUarray = @("Teaching Staff","Non-Teaching Staff") #Full list of OU(s) to process.
+#$StaffOUarray = @("Teaching Staff") #limited OU(s) for initial development testing.
 
 for ($i=0; $i -lt $StaffOUarray.Count; $i++){
     $StaffRole = $StaffOUarray[$i] #set 
