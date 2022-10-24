@@ -1,5 +1,6 @@
 ﻿clear-host
 
+
 function dashedline() { #print dashed line
 Write-Host "----------------------------------------------------------------------------------------------------------"
 }
@@ -9,13 +10,16 @@ Write-Host "--------------------------------------------------------------------
 $CID="C00681" #change ID - update as required
 $root = "D:" # base drive letter for data/logging folders - update as required
 
-$GamDir="$root\AppData\GAMXTD3\app" #GAM directory
+#$GamDir="$root\AppData\GAMXTD3\app" #GAM directory
 $DataDir="$root\AppData\MNSP\$CID\Data" #Data dir
 $LogDir="$root\AppData\MNSP\$CID\Logs" #Logs dir
 $transcriptlog = "$LogDir\$(Get-date -Format yyyyMMdd-HHmmss)_transcript.log"
 
-$siteOUpath = ",OU=Students,OU=WRI,OU=Establishments,DC=writhlington,DC=internal" #update as required
-$siteSharePath = "\\MNSP-SYNO-01\MacData01" #update as required 
+$StudentSiteOUpath = ",OU=Students,OU=WRI,OU=Establishments,DC=writhlington,DC=internal" #update as required
+$StudentSiteSharePath = "\\MNSP-SYNO-01\MacData01" #update as required 
+
+$StaffSiteOUpath = ",OU=WRI,OU=Establishments,DC=writhlington,DC=internal" #update as required
+$StaffSiteSharePath = "\\MNSP-SYNO-01\MacData02" #update as required 
 
 #create required logging/working directory(s) paths if not exist...
 If(!(test-path -PathType container $DataDir))
@@ -39,9 +43,10 @@ $AllSupportStaffADGroup = "$ADshortName\WRI Non-Teach Staff" # update as require
 
 $fullPath = "$basepath\$SAM" #students home drive
 $icaclsperms01 = "(NP)(RX)" #students traverse right
-$icaclsperms02 = "(OI)(CI)(RX,W,WDAC,WO,DC)" #students modify right
+$icaclsperms02 = "(OI)(CI)(RX,W,WDAC,WO,DC)" #common modify right - home directories for owner
 $icaclsperms03 = "(OI)(CI)(RX,W,DC)" #staff/support modify right
 
+Write-Host "Processing Students..."
 #year groups to process array
 #$array = @("2000","2019","2018","2017","2016","2015","2014","2013") #update as required 
 $array = @("2000","2022") #limited OU(s) for initial development testing.
@@ -49,11 +54,11 @@ $array = @("2000","2022") #limited OU(s) for initial development testing.
 for ($i=0; $i -lt $array.Count; $i++){
     $INTYYYY = $array[$i] #set 
     Write-Host "Processing Intake year group:$INTYYYY"
-    $basepath = "$siteSharePath\$INTYYYY"
-    $searchBase = "OU=$INTYYYY$siteOUpath"
+    $basepath = "$StudentSiteSharePath\$INTYYYY"
+    $searchBase = "OU=$INTYYYY$StudentSiteOUpath"
     
     #create users array using year group array elements - 2000, 2019 etc...
-
+    $users=@() #empty any existing array
     $users = Get-aduser  -filter * -SearchBase $SearchBase -Properties sAMAccountName,homeDirectory,userPrincipalName,memberof | Select-Object sAMAccountName,homeDirectory,userPrincipalName
     Write-host "Number of students to check/process:" $users.count
 
@@ -102,6 +107,20 @@ if (!(Test-Path $fullPath))
 
 }
 
+Write-Host "Processing staff..."
+$StaffOUarray = @("Teaching Staff","Non-Teaching Staff") #limited OU(s) for initial development testing.
+
+for ($i=0; $i -lt $StaffOUarray.Count; $i++){
+    $StaffRole = $StaffOUarray[$i] #set 
+    Write-Host "Processing Staff Role OU:$StaffRole"
+    $basepath = "$StafffSiteSharePath\$StaffRole"
+    $searchBase = "OU=$StaffRoleSiteOUpath"
+
+    #create users array using year group array elements - Teaching, Non-Teaching  etc...
+    $users=@() #empty any existing array
+    $users = Get-aduser  -filter * -SearchBase $SearchBase -Properties sAMAccountName,homeDirectory,userPrincipalName,memberof | Select-Object sAMAccountName,homeDirectory,userPrincipalName
+    Write-host "Number of staff to check/process:" $users.count
+}
 #Delete any transaction logs older than 30 days
 Get-ChildItem "$LogDir\*_transcript.log" -Recurse -File | Where-Object CreationTime -lt  (Get-Date).AddDays(-30) | Remove-Item -verbose
 
