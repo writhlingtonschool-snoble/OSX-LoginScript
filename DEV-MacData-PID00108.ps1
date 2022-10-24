@@ -42,7 +42,7 @@ $AllSupportStaffADGroup = "$ADshortName\WRI Non-Teach Staff" # update as require
 
 
 $fullPath = "$basepath\$SAM" #students home drive
-$icaclsperms01 = "(NP)(RX)" #students traverse right
+$icaclsperms01 = "(NP)(RX)" #common traverse right
 $icaclsperms02 = "(OI)(CI)(RX,W,WDAC,WO,DC)" #common modify right - home directories for owner
 $icaclsperms03 = "(OI)(CI)(RX,W,DC)" #staff/support modify right
 
@@ -108,7 +108,8 @@ if (!(Test-Path $fullPath))
 }
 
 Write-Host "Processing staff..."
-$StaffOUarray = @("Teaching Staff","Non-Teaching Staff") #limited OU(s) for initial development testing.
+#$StaffOUarray = @("Teaching Staff","Non-Teaching Staff") #Full list of OU(s) to process.
+$StaffOUarray = @("Teaching Staff") #limited OU(s) for initial development testing.
 
 for ($i=0; $i -lt $StaffOUarray.Count; $i++){
     $StaffRole = $StaffOUarray[$i] #set 
@@ -120,10 +121,24 @@ for ($i=0; $i -lt $StaffOUarray.Count; $i++){
     $users=@() #empty any existing array
     $users = Get-aduser  -filter * -SearchBase $SearchBase -Properties sAMAccountName,homeDirectory,userPrincipalName,memberof | Select-Object sAMAccountName,homeDirectory,userPrincipalName
     Write-host "Number of staff to check/process:" $users.count
+
+    Write-Host "Checking for/Creating base path: $basepath"
+if (!(Test-Path $basepath))
+    {
+    new-item -ItemType Directory -Path $basepath -Force
+    
+    Write-Host "Setting NTFS Permissions..."
+        #grant traverse rights...
+        Invoke-expression "icacls.exe $basepath /grant '$($AllTeachingStaffADGroup):$icaclsperms01'" 
+        Invoke-expression "icacls.exe $basepath /grant '$($AllSupportStaffADGroup):$icaclsperms01'" 
+        Start-sleep 60 #comment after initial run, once happy script is ready for full unuattended runs
+        } else {
+        Write-Host "$basepath already exists..."
+        }
+        dashedline
 }
 #Delete any transaction logs older than 30 days
 Get-ChildItem "$LogDir\*_transcript.log" -Recurse -File | Where-Object CreationTime -lt  (Get-Date).AddDays(-30) | Remove-Item -verbose
 
 Stop-Transcript
-
 
