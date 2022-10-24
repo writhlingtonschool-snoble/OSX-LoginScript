@@ -167,6 +167,6 @@ if (!(Test-Path '$basepath'))
     }
 #Delete any transaction logs older than 30 days
 Get-ChildItem "$LogDir\*_transcript.log" -Recurse -File | Where-Object CreationTime -lt  (Get-Date).AddDays(-30) | Remove-Item -verbose
-
+dashedline
 Stop-Transcript
 
