@@ -44,7 +44,7 @@ $AllSupportStaffADGroup = "$ADshortName\WRI Non-Teach Staff" # update as require
 $fullPath = "$basepath\$SAM" #students home drive
 $icaclsperms01 = "(NP)(RX)" #common traverse right
 $icaclsperms02 = "(OI)(CI)(RX,W,WDAC,WO,DC)" #common modify right - home directories for owner
-$icaclsperms03 = "(OI)(CI)(RX,W,DC)" #staff/support modify right
+$icaclsperms03 = "(OI)(CI)(RX,W,DC)" #staff/support modify right (student areas)
 
 Write-Host "Processing Students..."
 #year groups to process array
@@ -136,7 +136,35 @@ if (!(Test-Path $basepath))
         Write-Host "$basepath already exists..."
         }
         dashedline
-}
+
+        foreach ($user in $users) {
+
+            dashedline
+            Write-host "Processing user: $($user.sAMAccountname)"
+            Write-host "UPN: $($user.userPrincipalName)"
+            $fullPath = "$basepath\$($user.sAMAccountName)"
+        
+        Write-Host "Checking for full path: $fullpath"
+        if (!(Test-Path $fullPath))
+            {
+            Write-Host "Creating directory for staff..."
+            new-item -ItemType Directory -Path $fullpath -Force
+            
+        
+            Write-Host "Setting NTFS Permissions..."
+            #grant owner permissions...
+            Invoke-expression "icacls.exe $fullPath /grant '$($user.userPrincipalName):$icaclsperms02'"
+            
+            Start-sleep 60 #comment after initial run, once happy script is ready for full unuattended runs
+            } else {
+            Write-host "Already exists nothing to do..."
+            }
+            dashedline
+            #sleep 5
+        }
+
+
+    }
 #Delete any transaction logs older than 30 days
 Get-ChildItem "$LogDir\*_transcript.log" -Recurse -File | Where-Object CreationTime -lt  (Get-Date).AddDays(-30) | Remove-Item -verbose
 
