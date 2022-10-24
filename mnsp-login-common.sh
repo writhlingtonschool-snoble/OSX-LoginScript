@@ -193,6 +193,14 @@ elif [[ "${VAR_ROLE}" =~ "Staff" ]] ;then
 		[ -f "/Users/$VAR_USERNAME/Desktop/Mac Student Areas" ] && rm -f "/Users/$VAR_USERNAME/Desktop/Mac Student Areas" #force delete if exists
 		sudo -u "$VAR_USERNAME" ln -s /Volumes/$CNF_SMBSHARE01 "/Users/$VAR_USERNAME/Desktop/Mac Student Areas" #create symlink using extracted vars from DSCL/LDAP lookup
 
+		#mount NAS drive 02
+		CNF_MyMediaWorkStaff="smb://$CNF_NAS/$CNF_SMBSHARE02"
+		#sudo -u "$VAR_USERNAME" osascript -e 'mount volume "smb://mnsp-syno-01/MacData01"'
+
+			_mainLog "inf" "Mounting NAS SMB share: $CNF_MyMediaWorkStaff"
+
+		sudo -u "$VAR_USERNAME" osascript -e "mount volume \"${CNF_MyMediaWorkStaff}\""
+
 		#create user's dektop symlink
 		[ -f "/Users/$VAR_USERNAME/Desktop/My Media Work" ] && rm -f "/Users/$VAR_USERNAME/Desktop/My Media Work" #force delete if exists
 		sudo -u "$VAR_USERNAME" ln -s /Volumes/$CNF_SMBSHARE02/$VAR_USERNAME "/Users/$VAR_USERNAME/Desktop/My Media Work" #create symlink using extracted vars from DSCL/LDAP lookup
