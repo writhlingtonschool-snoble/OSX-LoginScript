@@ -204,7 +204,7 @@ elif [[ "${VAR_ROLE}" =~ "Staff" ]] ;then
 		VAR_DN6=$(echo $VAR_DN5 | awk -F"," {'print $(NF-2)}')
 		_mainLog "inf" "Symlink LDAP distinguished Name part 6: $VAR_DN6"
 		VAR_DN7=$(echo $VAR_DN6 | awk -F"OU=" '{print $2}')
-		VAR_STAFFROLE=$(echo $VAR_DN7 | sed 's/" "//g') #remove any whitespace(s)
+		VAR_STAFFROLE=$(echo $VAR_DN7 | sed 's/ //g') #remove any whitespace(s)
 		
 		#VAR_STAFFROLE=$(echo $VAR_DN6 | awk -F"OU=" '{print $2}')
 		_mainLog "inf" "Symlink LDAP distinguished Name part 7: $VAR_STAFFROLE"
