@@ -2,6 +2,7 @@
 # *********************************************************************
 ## @type: shellscript
 ## ********************************************************************
+##transparent##
 
 # Script Configuration
 CNF_ENABLED="YES" #run script yes or no
