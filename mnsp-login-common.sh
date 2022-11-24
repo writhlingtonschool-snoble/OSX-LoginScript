@@ -1,23 +1,17 @@
 #!/bin/bash
 # *********************************************************************
-## @type: shellscript
-## ********************************************************************
-##transparent##
 
 # Script Configuration
 CNF_ENABLED="YES" #run script yes or no
 CNF_LOGGING="YES" #log script output or not
 CNF_UPDATES="YES" #check mac server for updates and download them
 CNF_AUTOSTART="YES" #run login items script
-CNF_HDRIVE="NO" #enable/disable network drive mounts
+CNF_HDRIVE="NO" #enable/disable network/windows Home (N) drive mounts
 CNF_SLINK="NO" #enable/didable symlinks to desktop
-CNF_FIXES="YES" #enable/disable special 'because on a mac fixes...'
+CNF_FIXES="YES" #enable/disable special mac fixes...'
 CNF_GITSRC="https://raw.githubusercontent.com/writhlingtonschool-snoble/OSX-LoginScript/main/mnsp-login-common.sh" #self updating git source.
 CNF_GITSHA="https://raw.githubusercontent.com/writhlingtonschool-snoble/OSX-LoginScript/main/mnsp-login-common.checksum" #self updating checksum
-#CNF_SERVER="wrisch-macserver01.writhlington.internal" #address of server hosting resources  - legacy writhlington only
-#CNF_STAHOME="wri-sr-004" - legacy writhlington only
-#CNF_STUHOME="wri-sr-003" - legacy writhlington only
-#CNF_SETUP="/Writhlington" #local location for all scripts and assets  - legacy writhlington only
+
 CNF_SETUP="/private/mnsp" #local location for all scripts and assets
 CNF_VER="1" #script version used for update checking
 CNF_SWTAR="10.13.6" #macos target version
@@ -101,7 +95,7 @@ fi
 	curl --url $CNF_GITSHA --output "$CNF_SETUP/.scripts/mnsp-login-common.checksum" > /dev/null
 	shasum -a 256 -c "$CNF_SETUP/.scripts/mnsp-login-common.checksum" -q
 	if [ $? -ne 0 ] ; then
-		_mainLog "inf" "Downloading latest script(s)"
+		_mainLog "inf" "Downloading latest script..."
 		#curl --url "http://$CNF_SERVER/MNSP/scripts/wrisch-login.sh" --output "$CNF_SETUP/.scripts/wrisch-login.sh" > /dev/null
 		curl --url $CNF_GITSRC --output "$CNF_SETUP/.scripts/mnsp-login-common.sh" > /dev/null
 	fi
@@ -224,3 +218,9 @@ fi
 
 _mainLog "inf" "$VAR_NAME finished"
 _mainLog "def" "************************************************************"
+
+########
+#CNF_SERVER="wrisch-macserver01.writhlington.internal" #address of server hosting resources  - legacy writhlington only
+#CNF_STAHOME="wri-sr-004" - legacy writhlington only
+#CNF_STUHOME="wri-sr-003" - legacy writhlington only
+#CNF_SETUP="/Writhlington" #local location for all scripts and assets  - legacy writhlington only
