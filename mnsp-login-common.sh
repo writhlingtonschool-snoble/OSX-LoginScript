@@ -9,8 +9,8 @@ CNF_AUTOSTART="YES" #run login items script
 CNF_HDRIVE="NO" #enable/disable network/windows Home (N) drive mounts
 CNF_SLINK="NO" #enable/didable symlinks to desktop
 CNF_FIXES="YES" #enable/disable special mac fixes...'
-CNF_GITSRC="https://raw.githubusercontent.com/writhlingtonschool-snoble/OSX-LoginScript/main/mnsp-login-common.sh" #self updating git source.
-CNF_GITSHA="https://raw.githubusercontent.com/writhlingtonschool-snoble/OSX-LoginScript/main/mnsp-login-common.checksum" #self updating checksum
+CNF_GITSRC="https://raw.githubusercontent.com/writhlingtonschool-snoble/OSX-LoginScript/main/mnsp-login-common.sh" #self updating git source - needs migration to MNSP GIT instance
+CNF_GITSHA="https://raw.githubusercontent.com/writhlingtonschool-snoble/OSX-LoginScript/main/mnsp-login-common.checksum" #self updating checksum - needs migration to MNSP GIT instance
 
 CNF_SETUP="/private/mnsp" #local location for all scripts and assets
 CNF_VER="1" #script version used for update checking
