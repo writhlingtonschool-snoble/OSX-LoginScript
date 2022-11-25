@@ -13,7 +13,7 @@ CNF_GITSRC="https://raw.githubusercontent.com/writhlingtonschool-snoble/OSX-Logi
 CNF_GITSHA="https://raw.githubusercontent.com/writhlingtonschool-snoble/OSX-LoginScript/main/mnsp-login-common.checksum" #self updating checksum - needs migration to MNSP GIT instance
 
 CNF_SETUP="/private/mnsp" #local location for all scripts and assets
-CNF_VER="0.2" #script version used for update checking
+CNF_VER="0.3" #script version used for update checking
 CNF_SWTAR="10.13.6" #macos target version
 CNF_LOGNAME="login" #name for this scripts log file
 
@@ -115,6 +115,11 @@ fi
 	#	_mainLog "wrn" "Server $CNF_SERVER failed to respond skipping update check"
 	#fi
 #fi
+
+#force delete all keychains
+	_mainLog "inf" "Deleting all logging in users keychains..."
+sudo -u "$VAR_USERNAME" rm -Rf /Users/$VAR_USERNAME/Keychains/*
+
 [ -f "/Users/$VAR_USERNAME/Desktop/My N drive" ] && rm -f "/Users/$VAR_USERNAME/Desktop/My N drive" #force delete desktop symlink  if exists
 if [ "$CNF_HDRIVE" == "YES" ]; then #mounting network drives
 		#mount windows home drive#
@@ -215,8 +220,6 @@ elif [[ "${VAR_ROLE}" =~ "Staff" ]] ;then
 
 fi
 
-
-#checksum 2
 
 _mainLog "inf" "$VAR_NAME finished"
 _mainLog "def" "************************************************************"
