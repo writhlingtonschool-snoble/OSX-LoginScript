@@ -118,7 +118,7 @@ fi
 
 #force delete all keychains
 	_mainLog "inf" "Deleting all logging in users keychains..."
-sudo -u "$VAR_USERNAME" rm -Rf /Users/$VAR_USERNAME/Keychains/*
+sudo -u "$VAR_USERNAME" rm -Rf /Users/$VAR_USERNAME/Library/Keychains/*
 
 [ -f "/Users/$VAR_USERNAME/Desktop/My N drive" ] && rm -f "/Users/$VAR_USERNAME/Desktop/My N drive" #force delete desktop symlink  if exists
 if [ "$CNF_HDRIVE" == "YES" ]; then #mounting network drives
