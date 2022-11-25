@@ -11,9 +11,9 @@ CNF_SLINK="NO" #enable/didable symlinks to desktop
 CNF_FIXES="YES" #enable/disable special mac fixes...'
 CNF_GITSRC="https://raw.githubusercontent.com/writhlingtonschool-snoble/OSX-LoginScript/main/mnsp-login-common.sh" #self updating git source - needs migration to MNSP GIT instance
 CNF_GITSHA="https://raw.githubusercontent.com/writhlingtonschool-snoble/OSX-LoginScript/main/mnsp-login-common.checksum" #self updating checksum - needs migration to MNSP GIT instance
-
+CNF_DELKEYCHAINS="YES" #enable/disable force deletion of users keychains, prevents gen new keychain messages/confusion.
 CNF_SETUP="/private/mnsp" #local location for all scripts and assets
-CNF_VER="0.3" #script version used for update checking
+CNF_VER="0.4" #script version used for update checking
 CNF_SWTAR="10.13.6" #macos target version
 CNF_LOGNAME="login" #name for this scripts log file
 
@@ -116,9 +116,10 @@ fi
 	#fi
 #fi
 
-#force delete all keychains
+if [ ! $CNF_DELKEYCHAINS == "YES" ]; then #force delete all users keychains
 	_mainLog "inf" "Deleting all logging in users keychains..."
 sudo -u "$VAR_USERNAME" rm -Rf /Users/$VAR_USERNAME/Library/Keychains/*
+fi
 
 [ -f "/Users/$VAR_USERNAME/Desktop/My N drive" ] && rm -f "/Users/$VAR_USERNAME/Desktop/My N drive" #force delete desktop symlink  if exists
 if [ "$CNF_HDRIVE" == "YES" ]; then #mounting network drives
