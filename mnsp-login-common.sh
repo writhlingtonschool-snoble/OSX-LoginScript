@@ -13,7 +13,7 @@ CNF_GITSRC="https://raw.githubusercontent.com/writhlingtonschool-snoble/OSX-Logi
 CNF_GITSHA="https://raw.githubusercontent.com/writhlingtonschool-snoble/OSX-LoginScript/main/mnsp-login-common.checksum" #self updating checksum - needs migration to MNSP GIT instance
 CNF_DELKEYCHAINS="YES" #enable/disable force deletion of users keychains, prevents gen new keychain messages/confusion.
 CNF_SETUP="/private/mnsp" #local location for all scripts and assets
-CNF_VER="0.9.1" #script version used for update checking
+CNF_VER="0.9.2" #script version used for update checking
 CNF_SWTAR="11.5.1" #macos target version
 CNF_LOGNAME="login" #name for this scripts log file
 
@@ -221,7 +221,7 @@ elif [[ "${VAR_ROLE}" =~ "Staff" ]] ;then
 		#create user's dektop symlink
 		[ -f "/Users/$VAR_USERNAME/Desktop/My Media Work" ] && rm -f "/Users/$VAR_USERNAME/Desktop/My Media Work" #force delete if exists
 		#sudo -u "$VAR_USERNAME" ln -s /Volumes/$CNF_SMBSHARE02/\"${VAR_STAFFROLE}\"/$VAR_USERNAME "/Users/$VAR_USERNAME/Desktop/My Media Work" #create symlink using extracted vars from DSCL/LDAP lookup
-		sudo -u "$VAR_USERNAME" ln -s "/Volumes/$CNF_SMBSHARE02/$VAR_STAFFROLE/$VAR_USERNAME" "/Users/$VAR_USERNAME/Desktop/My Media Work" #create symlink using extracted vars from DSCL/LDAP lookup
+		sudo -u "$VAR_USERNAME" ln -s "/Volumes/$CNF_SMBSHARE02/\${VAR_STAFFROLE}\/$VAR_USERNAME" "/Users/$VAR_USERNAME/Desktop/My Media Work" #create symlink using extracted vars from DSCL/LDAP lookup
 
 fi
 
