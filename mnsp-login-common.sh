@@ -209,8 +209,8 @@ elif [[ "${VAR_ROLE}" =~ "Staff" ]] ;then
 		VAR_DN6=$(echo $VAR_DN5 | awk -F"," {'print $(NF-2)}')
 		_mainLog "inf" "Symlink LDAP distinguished Name part 6: $VAR_DN6"
 		VAR_DN7=$(echo $VAR_DN6 | awk -F"OU=" '{print $2}')
-		#VAR_STAFFROLE=$(echo $VAR_DN7 | sed 's/ //g') #remove any whitespace(s)
-		VAR_STAFFROLE=$VAR_DN7
+		VAR_STAFFROLE=$(echo $VAR_DN7 | sed 's/ //g') #remove any whitespace(s)
+		#VAR_STAFFROLE=$VAR_DN7
 
 		#VAR_STAFFROLE=$(echo $VAR_DN6 | awk -F"OU=" '{print $2}')
 		_mainLog "inf" "Symlink LDAP distinguished Name part 7: $VAR_STAFFROLE"
@@ -220,7 +220,8 @@ elif [[ "${VAR_ROLE}" =~ "Staff" ]] ;then
 		############
 		#create user's dektop symlink
 		[ -f "/Users/$VAR_USERNAME/Desktop/My Media Work" ] && rm -f "/Users/$VAR_USERNAME/Desktop/My Media Work" #force delete if exists
-		sudo -u "$VAR_USERNAME" ln -s /Volumes/$CNF_SMBSHARE02/\"${VAR_STAFFROLE}\"/$VAR_USERNAME "/Users/$VAR_USERNAME/Desktop/My Media Work" #create symlink using extracted vars from DSCL/LDAP lookup
+		#sudo -u "$VAR_USERNAME" ln -s /Volumes/$CNF_SMBSHARE02/\"${VAR_STAFFROLE}\"/$VAR_USERNAME "/Users/$VAR_USERNAME/Desktop/My Media Work" #create symlink using extracted vars from DSCL/LDAP lookup
+		sudo -u "$VAR_USERNAME" ln -s /Volumes/$CNF_SMBSHARE02/$VAR_STAFFROLE/$VAR_USERNAME "/Users/$VAR_USERNAME/Desktop/My Media Work" #create symlink using extracted vars from DSCL/LDAP lookup
 
 fi
 
