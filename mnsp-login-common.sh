@@ -13,7 +13,7 @@ CNF_GITSRC="https://raw.githubusercontent.com/writhlingtonschool-snoble/OSX-Logi
 CNF_GITSHA="https://raw.githubusercontent.com/writhlingtonschool-snoble/OSX-LoginScript/main/mnsp-login-common.checksum" #self updating checksum - needs migration to MNSP GIT instance
 CNF_DELKEYCHAINS="YES" #enable/disable force deletion of users keychains, prevents gen new keychain messages/confusion.
 CNF_SETUP="/private/mnsp" #local location for all scripts and assets
-CNF_VER="0.5" #script version used for update checking
+CNF_VER="0.6" #script version used for update checking
 CNF_SWTAR="11.5.1" #macos target version
 CNF_LOGNAME="login" #name for this scripts log file
 
@@ -99,7 +99,7 @@ fi
 		_mainLog "inf" "Downloading latest script..."
 		curl --url $CNF_GITSRC --output "$CNF_SETUP/.scripts/mnsp-login-common.sh" > /dev/null
 		RES=$?
-		if [ ! "$RES" == "0"] ; then
+		if [ "$RES" != "0"] ; then
 		_mainLog "wrn" "Failed to successfully download latest script from github, exit code: $RES"
 		fi
 	fi
@@ -214,12 +214,12 @@ elif [[ "${VAR_ROLE}" =~ "Staff" ]] ;then
 		#VAR_STAFFROLE=$(echo $VAR_DN6 | awk -F"OU=" '{print $2}')
 		_mainLog "inf" "Symlink LDAP distinguished Name part 7: $VAR_STAFFROLE"
 		#_mainLog "inf" "Symlink content: /Volumes/$CNF_SMBSHARE02/${VAR_STAFFROLE}/$VAR_USERNAME /Users/$VAR_USERNAME/Desktop/My Media Work"
-		_mainLog "inf" "Symlink content: /Volumes/$CNF_SMBSHARE02/$VAR_STAFFROLE/$VAR_USERNAME /Users/$VAR_USERNAME/Desktop/My Media Work"
+		_mainLog "inf" "Symlink content: /Volumes/$CNF_SMBSHARE02/$VAR_STAFFROLE/$VAR_USERNAME /Users/$VAR_USERNAME/Desktop/MyMediaWork"
 
 		############
 		#create user's dektop symlink
 		[ -f "/Users/$VAR_USERNAME/Desktop/My Media Work" ] && rm -f "/Users/$VAR_USERNAME/Desktop/My Media Work" #force delete if exists
-		sudo -u "$VAR_USERNAME" ln -s /Volumes/$CNF_SMBSHARE02/\"${VAR_STAFFROLE}\"/$VAR_USERNAME "/Users/$VAR_USERNAME/Desktop/MyMediaWork" #create symlink using extracted vars from DSCL/LDAP lookup
+		sudo -u "$VAR_USERNAME" ln -s /Volumes/$CNF_SMBSHARE02/\'${VAR_STAFFROLE}\'/$VAR_USERNAME "/Users/$VAR_USERNAME/Desktop/MyMediaWork" #create symlink using extracted vars from DSCL/LDAP lookup
 
 fi
 
