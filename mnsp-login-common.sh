@@ -13,7 +13,7 @@ CNF_GITSRC="https://raw.githubusercontent.com/writhlingtonschool-snoble/OSX-Logi
 CNF_GITSHA="https://raw.githubusercontent.com/writhlingtonschool-snoble/OSX-LoginScript/main/mnsp-login-common.checksum" #self updating checksum - needs migration to MNSP GIT instance
 CNF_DELKEYCHAINS="YES" #enable/disable force deletion of users keychains, prevents gen new keychain messages/confusion.
 CNF_SETUP="/private/mnsp" #local location for all scripts and assets
-CNF_VER="0.7" #script version used for update checking
+CNF_VER="0.8" #script version used for update checking
 CNF_SWTAR="11.5.1" #macos target version
 CNF_LOGNAME="login" #name for this scripts log file
 
