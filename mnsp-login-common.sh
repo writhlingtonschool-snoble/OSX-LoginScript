@@ -14,7 +14,7 @@ CNF_GITSHA="https://raw.githubusercontent.com/writhlingtonschool-snoble/OSX-Logi
 CNF_DELKEYCHAINS="YES" #enable/disable force deletion of users keychains, prevents gen new keychain messages/confusion.
 CNF_SETUP="/private/mnsp" #local location for all scripts and assets
 CNF_VER="0.4" #script version used for update checking
-CNF_SWTAR="10.13.6" #macos target version
+CNF_SWTAR="11.5.1" #macos target version
 CNF_LOGNAME="login" #name for this scripts log file
 
 #agreed MAT common smbshare name(s)
@@ -25,7 +25,6 @@ CNF_SMBSHARE02="MacData02" #staff data
 VAR_NAME=$(basename $0) #script name
 VAR_USERNAME="$1" #current user logging in
 VAR_USERHOME="/Users/$VAR_USERNAME" #users local home dir
-VAR_USERBACKUP="CNF_SETUP/.backups/$VAR_USERNAME" #users backup directory
 VAR_HOST=$(scutil --get ComputerName) #computer hostname
 VAR_SWVER-$(sw_vers | grep -i ProductVersion | awk -F" " '{print $2}') #get macos version
 
@@ -58,7 +57,7 @@ mkdir "$CNF_SETUP/logs" #needs if exist check
 _mainLog "def" "******************** $VAR_NAME v$CNF_VER ********************" #opening log entry
 _mainLog "inf" "Starting Script" #opening log entry
 
-# Dertimne local IP address, broadcast set location
+# Determine local IP address, broadcast address, then use to  set location
 VAR_LOCALIPADD=$(ifconfig en0 | grep -w "inet" | awk -F" " {'print $2'})
 VAR_LOCALBCAST=$(ifconfig en0 | grep -w "inet" | awk -F" " {'print $NF'})
 _mainLog "inf" "Local IP address: $VAR_LOCALIPADD"
@@ -94,12 +93,15 @@ fi
 	_mainLog "inf" "Downloading GITHUB checksum..."
 	[ -f "$CNF_SETUP/.scripts/mnsp-login-common.checksum" ] && rm -f "$CNF_SETUP/.scripts/mnsp-login-common.checksum" #force delete if exists
 	curl --url $CNF_GITSHA --output "$CNF_SETUP/.scripts/mnsp-login-common.checksum" > /dev/null
-	_mainLog "inf" "Comparing GITHUB/Local checksums..."
+	_mainLog "inf" "Comparing GITHUB/Local checksums for login script..."
 	shasum -a 256 -c "$CNF_SETUP/.scripts/mnsp-login-common.checksum" -q #compare checksums
 	if [ $? -ne 0 ] ; then
 		_mainLog "inf" "Downloading latest script..."
-		#curl --url "http://$CNF_SERVER/MNSP/scripts/wrisch-login.sh" --output "$CNF_SETUP/.scripts/wrisch-login.sh" > /dev/null
 		curl --url $CNF_GITSRC --output "$CNF_SETUP/.scripts/mnsp-login-common.sh" > /dev/null
+		RES=$?
+		if [ ! "$RES" == "0"] ; then
+		_mainLog "wrn" "Failed to successfully download latest script from github, exit code: $RES"
+		fi
 	fi
 	#_mainLog "inf" "Checking server $CNF_SERVER is up and responding"
 	#ping -q -c5 "$CNF_SERVER" > /dev/null #ping server to see if its up 
@@ -226,7 +228,9 @@ _mainLog "inf" "$VAR_NAME finished"
 _mainLog "def" "************************************************************"
 
 ########
-#CNF_SERVER="wrisch-macserver01.writhlington.internal" #address of server hosting resources  - legacy writhlington only
-#CNF_STAHOME="wri-sr-004" - legacy writhlington only
-#CNF_STUHOME="wri-sr-003" - legacy writhlington only
-#CNF_SETUP="/Writhlington" #local location for all scripts and assets  - legacy writhlington only
+#CNF_SERVER="wrisch-macserver01.writhlington.internal" #address of server hosting resources  # - legacy writhlington only
+#CNF_STAHOME="wri-sr-004" # - legacy writhlington only
+#CNF_STUHOME="wri-sr-003" # - legacy writhlington only
+#CNF_SETUP="/Writhlington" #local location for all scripts and assets  # - legacy writhlington only
+#curl --url "http://$CNF_SERVER/MNSP/scripts/wrisch-login.sh" --output "$CNF_SETUP/.scripts/wrisch-login.sh" > /dev/null # - legacy writhlington only
+#VAR_USERBACKUP="CNF_SETUP/.backups/$VAR_USERNAME" #users backup directory # - legacy writhlington only
