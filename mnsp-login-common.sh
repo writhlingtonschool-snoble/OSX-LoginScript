@@ -91,9 +91,10 @@ if [ ! $CNF_SWTAR == $VAR_SWVER ]; then #check macos version and log if mismatch
 fi
 
 #if [ "$CNF_UPDATES" == "YES" ]; then #if enabled chack for updates
-	_mainLog "inf" "Downloading GITHUB checksum "
+	_mainLog "inf" "Downloading GITHUB checksum..."
 	[ -f "$CNF_SETUP/.scripts/mnsp-login-common.checksum" ] && rm -f "$CNF_SETUP/.scripts/mnsp-login-common.checksum" #force delete if exists
 	curl --url $CNF_GITSHA --output "$CNF_SETUP/.scripts/mnsp-login-common.checksum" > /dev/null
+	_mainLog "inf" "Comparing GITHUB/Local checksums..."
 	shasum -a 256 -c "$CNF_SETUP/.scripts/mnsp-login-common.checksum" -q #compare checksums
 	if [ $? -ne 0 ] ; then
 		_mainLog "inf" "Downloading latest script..."
@@ -114,7 +115,7 @@ fi
 	#	_mainLog "wrn" "Server $CNF_SERVER failed to respond skipping update check"
 	#fi
 #fi
-[ -f "/Users/$VAR_USERNAME/Desktop/My N drive" ] && rm -f "/Users/$VAR_USERNAME/Desktop/My N drive" #force delete if exists
+[ -f "/Users/$VAR_USERNAME/Desktop/My N drive" ] && rm -f "/Users/$VAR_USERNAME/Desktop/My N drive" #force delete desktop symlink  if exists
 if [ "$CNF_HDRIVE" == "YES" ]; then #mounting network drives
 		#mount windows home drive#
 		VAR_SMB="smb:"
