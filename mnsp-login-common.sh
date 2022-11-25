@@ -219,7 +219,7 @@ elif [[ "${VAR_ROLE}" =~ "Staff" ]] ;then
 		############
 		#create user's dektop symlink
 		[ -f "/Users/$VAR_USERNAME/Desktop/My Media Work" ] && rm -f "/Users/$VAR_USERNAME/Desktop/My Media Work" #force delete if exists
-		sudo -u "$VAR_USERNAME" ln -s /Volumes/$CNF_SMBSHARE02/\"${VAR_STAFFROLE}\"/$VAR_USERNAME "/Users/$VAR_USERNAME/Desktop/My Media Work" #create symlink using extracted vars from DSCL/LDAP lookup
+		sudo -u "$VAR_USERNAME" ln -s /Volumes/$CNF_SMBSHARE02/\"${VAR_STAFFROLE}\"/$VAR_USERNAME "/Users/$VAR_USERNAME/Desktop/MyMediaWork" #create symlink using extracted vars from DSCL/LDAP lookup
 
 fi
 
